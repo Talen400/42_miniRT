@@ -14,7 +14,7 @@ MLX42_BUILD_DIR   := $(MLX42_DIR)/build
 # Compilador e flags
 CC                := cc
 CFLAGS            := -Wall -Wextra -Werror -I$(INCLUDE_DIR) -I$(LIBFT_DIR)/include -I$(MLX42_DIR)/include
-LDFLAGS           := -L$(LIBFT_DIR) -L$(MLX42_BUILD_DIR) -lft -lmlx42
+LDFLAGS           := -L$(LIBFT_DIR) -L$(MLX42_BUILD_DIR) -lft -lmlx42 -lglfw
 CFLAGS_DEBUG      := $(CFLAGS) -g -O0
 
 # Executable
@@ -22,8 +22,10 @@ NAME              := miniRT
 
 # Fontes do projeto
 SRCS              := src/main.c \
+					 src/mlx_utils.c \
                      src/parser/parser.c \
-                     src/parser/parser_utils.c
+                     src/parser/parser_utils.c \
+					 src/draw/draw.c
 
 OBJS              := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
 

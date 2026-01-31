@@ -1,15 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mlx_utils.c                                        :+:      :+:    :+:   */
+/*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlavared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/31 01:01:01 by tlavared          #+#    #+#             */
-/*   Updated: 2026/01/31 02:07:05 by tlavared         ###   ########.fr       */
+/*   Created: 2026/01/31 01:44:49 by tlavared          #+#    #+#             */
+/*   Updated: 2026/01/31 02:08:29 by tlavared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../include/miniRt.h"
 #include "../include/mlx_rt.h"
 
 static inline void	put(uint8_t *pixels, int x, int y,
@@ -27,36 +28,30 @@ static inline void	put(uint8_t *pixels, int x, int y,
 	}
 }
 
-int	ft_errorinit(mlx_t *mlx)
+static void	drawing(t_minirt *minirt)
 {
-	if (mlx)
-		mlx_terminate(mlx);
-	printf("%s", mlx_strerror(mlx_errno));
-	return (1);
-}
+	uint32_t	color;
+	int			i;
+	int			j;
 
-int	ft_errorimg(mlx_t *mlx, mlx_image_t *img)
-{
-	if (img)
-		mlx_delete_image(mlx, img);
-	mlx_terminate(mlx);
-	return (1);
-}
-
-void	ft_clearimg(uint8_t *pixels)
-{
-	int	x;
-	int	y;
-
-	y = 0;
-	while (y < HEIGHT)
+	color = 0xFF0000FF;
+	i = 0;
+	j = 0;
+	while (i < WIDTH)
 	{
-		x = 0;
-		while (x < WIDTH)
+		j = 0;
+		while (j < HEIGHT)
 		{
-			put(pixels, x, y, 0x000000FF);
-			x++;
+			put(minirt->mlx.pixels, i, j, color);
+			j++;
 		}
-		y++;
+		i++;
 	}
+}
+
+int	draw(t_minirt *minirt)
+{
+	ft_clearimg(minirt->mlx.pixels);
+	drawing(minirt);
+	return (0);
 }
