@@ -14,11 +14,7 @@ MLX42_BUILD_DIR   := $(MLX42_DIR)/build
 # Compilador e flags
 CC                := cc
 CFLAGS            := -Wall -Wextra -Werror -I$(INCLUDE_DIR) -I$(LIBFT_DIR)/include -I$(MLX42_DIR)/include
-<<<<<<< HEAD
-LDFLAGS           := -L$(LIBFT_DIR) -L$(MLX42_BUILD_DIR) -lft -lmlx42 -lm
-=======
-LDFLAGS           := -L$(LIBFT_DIR) -L$(MLX42_BUILD_DIR) -lft -lmlx42 -lglfw
->>>>>>> feat/mlx
+LDFLAGS           := -L$(LIBFT_DIR) -L$(MLX42_BUILD_DIR) -lft -lmlx42 -lm -lglfw
 CFLAGS_DEBUG      := $(CFLAGS) -g -O0
 
 # Executable
