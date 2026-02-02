@@ -6,7 +6,7 @@
 /*   By: student <student@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 00:00:00 by student           #+#    #+#             */
-/*   Updated: 2026/02/02 13:20:02 by tlavared         ###   ########.fr       */
+/*   Updated: 2026/02/02 17:04:17 by tlavared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 
 #include "../MLX42/include/MLX42/MLX42.h"	// Lib da mlx
 #include "../libft/libft.h"					// lib da libft
+											//
+#include "color.h"
 /* ========================================================================== */
 /*                              CONSTANTES                                    */
 /* ========================================================================== */
@@ -37,8 +39,8 @@
 ** Estas constantes controlam aspectos fundamentais da renderização
 */
 
-# define WIDTH 1920          // Largura padrão da janela em pixels
-# define HEIGHT 1080         // Altura padrão da janela em pixels
+# define WIDTH 1280          // Largura padrão da janela em pixels
+# define HEIGHT 800         // Altura padrão da janela em pixels
 # define EPSILON 1e-6        // Valor muito pequeno para comparações de float
                              // Usado para evitar problemas de precisão numérica
 
@@ -70,7 +72,6 @@
 */
 
 typedef t_vec3	t_point3;    // Quando representa uma posição no espaço
-typedef t_vec3	t_color;     // Quando representa uma cor RGB
 
 /*
 ** ============================================================================
@@ -608,7 +609,7 @@ typedef struct s_minirt
 
 /* ---------- Operações com Raios (ray_ops.c) ---------- */
 t_ray		ray_create(t_point3 origin, t_vec3 direction);
-t_point3	ray_at(t_ray ray, double t);
+//t_vec3	ray_at(t_ray ray, double t);
 
 /* ---------- Parser (parse_*.c) ---------- */
 bool		parse_scene(const char *filename, t_scene *scene);
