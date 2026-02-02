@@ -23,7 +23,7 @@
 # include <unistd.h>     // read, write
 # include <stdio.h>      // printf (apenas para debugging)
 # include <stdbool.h>    // tipo bool (true/false)
-
+#include "vectors.h"   // Operações com vetores 3D
 /* ========================================================================== */
 /*                              CONSTANTES                                    */
 /* ========================================================================== */
@@ -58,40 +58,6 @@
 /*                       ESTRUTURAS FUNDAMENTAIS                              */
 /* ========================================================================== */
 
-/*
-** ============================================================================
-** ESTRUTURA: t_vec3
-** ============================================================================
-** 
-** A estrutura mais fundamental do ray tracing. Um vetor tridimensional pode
-** representar três conceitos diferentes dependendo do contexto:
-**
-** 1. POSIÇÃO/PONTO: Um local no espaço 3D (x, y, z)
-**    Exemplo: posição da câmera em (0, 0, -5)
-**
-** 2. DIREÇÃO: Um vetor que aponta para algum lugar
-**    Exemplo: direção que a câmera está olhando (0, 0, 1)
-**    Normalmente é normalizado (comprimento = 1)
-**
-** 3. COR: Valores RGB onde x=Red, y=Green, z=Blue
-**    Exemplo: vermelho puro = (255, 0, 0) ou (1.0, 0.0, 0.0)
-**
-** Esta versatilidade torna o código mais limpo e reutilizável, pois as
-** mesmas operações matemáticas (soma, subtração, multiplicação) se aplicam
-** a todos esses usos.
-**
-** Usamos 'double' em vez de 'float' porque precisamos de alta precisão
-** para cálculos de interseção. Erros de arredondamento podem causar
-** artefatos visuais desagradáveis.
-** ============================================================================
-*/
-
-typedef struct s_vec3
-{
-	double	x;    // Componente X (ou Red para cores, ou coordenada horizontal)
-	double	y;    // Componente Y (ou Green para cores, ou coordenada vertical)
-	double	z;    // Componente Z (ou Blue para cores, ou profundidade)
-}	t_vec3;
 
 /*
 ** Aliases semânticos para tornar o código mais legível
@@ -635,17 +601,6 @@ typedef struct s_minirt
 ** Aqui virão os protótipos das funções que você implementará.
 ** Por enquanto, apenas alguns exemplos para ilustrar a organização:
 */
-
-/* ---------- Operações com Vetores (vec3_ops.c) ---------- */
-t_vec3		vec3_create(double x, double y, double z);
-t_vec3		vec3_add(t_vec3 a, t_vec3 b);
-t_vec3		vec3_subtract(t_vec3 a, t_vec3 b);
-t_vec3		vec3_multiply(t_vec3 v, double scalar);
-t_vec3		vec3_divide(t_vec3 v, double scalar);
-double		vec3_dot(t_vec3 a, t_vec3 b);
-t_vec3		vec3_cross(t_vec3 a, t_vec3 b);
-double		vec3_length(t_vec3 v);
-t_vec3		vec3_normalize(t_vec3 v);
 
 /* ---------- Operações com Raios (ray_ops.c) ---------- */
 t_ray		ray_create(t_point3 origin, t_vec3 direction);
