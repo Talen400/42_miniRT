@@ -6,7 +6,7 @@
 /*   By: tlavared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 01:44:49 by tlavared          #+#    #+#             */
-/*   Updated: 2026/02/02 18:34:43 by tlavared         ###   ########.fr       */
+/*   Updated: 2026/02/02 19:34:25 by tlavared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static inline void	put(uint8_t *pixels, int x, int y,
 		pixels[index + 3] = color & 0xFF;
 	}
 }
-
+/*
 bool	is_hit_sphere(t_vec3 *center, double radius, t_ray *r)
 {
 	t_vec3	oc;
@@ -44,6 +44,28 @@ bool	is_hit_sphere(t_vec3 *center, double radius, t_ray *r)
 	discriminant = b * b - 4 * a * c;
 	return (discriminant >= 0);
 }
+*/
+
+double	is_hit_sphere(t_vec3 *center, double radius, t_ray *r)
+{
+	t_vec3	oc;
+	double	a;
+	double	b;
+	double	c;
+	double	discriminant;
+
+	oc = vec3_subtract(*center, r->origin);
+	a = vec3_dot(r->direction, r->direction);
+	b = -2.0 * vec3_dot(r->direction, oc);
+	c = vec3_dot(oc, oc) - radius * radius;
+	discriminant = b * b - 4 * a * c;
+	if (discriminant < 0)
+		return -1.0;
+	else
+		return ((-b - sqrt(discriminant)) / (2.0 * a));
+}
+
+
 
 static t_color	ray_color(t_ray *r)
 {
@@ -52,10 +74,23 @@ static t_color	ray_color(t_ray *r)
 	t_color	white;
 	t_color	blue;
 	t_vec3	center;
+	t_vec3	norm_surface;
+	t_vec3	hit_intersec;
+	t_color	norm_color;
 
 	center = vec3_create(0, 0, -1);
-	if (is_hit_sphere(&center, 0.5, r))
-		return (init_color(0xFF0000FF));
+	t = is_hit_sphere(&center, 0.5, r);
+	if (t > 0.0)
+	{
+		hit_intersec = vec3_add(r->origin, vec3_multiply(r->direction, t));
+		norm_surface = vec3_normalize(vec3_subtract(hit_intersec, center));
+		norm_color.r = (norm_surface.x + 1.0) * 0.5 * 255;
+		norm_color.g = (norm_surface.y + 1.0) * 0.5 * 255;
+		norm_color.b = (norm_surface.z + 1.0) * 0.5 * 255;
+		norm_color.a = 255.0;
+		return (norm_color);
+	}
+	// Shy
 	unit_dir = r->direction;
 	white = init_color(0xFFFFFFFF);
 	blue = init_color(0x0066FFFF);
