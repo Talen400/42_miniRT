@@ -6,7 +6,7 @@
 /*   By: rgregori <rgregori@student.42sp.org.br>    #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026-02-02 14:53:51 by rgregori          #+#    #+#             */
-/*   Updated: 2026-02-02 14:53:51 by rgregori         ###   ########.fr       */
+/*   Updated: 2026/02/02 18:39:32 by tlavared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ t_vec3		vec3_normalize(t_vec3 v)
 	length = vec3_length(v);
 	if (length == 0)
 		//error_exit("Cannot normalize zero-length vector");
+		length = 0.001;
 	result.x = v.x / length;
 	result.y = v.y / length;
 	result.z = v.z / length;

@@ -6,12 +6,13 @@
 /*   By: tlavared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 01:44:49 by tlavared          #+#    #+#             */
-/*   Updated: 2026/01/31 02:08:29 by tlavared         ###   ########.fr       */
+/*   Updated: 2026/02/02 18:34:43 by tlavared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/miniRt.h"
 #include "../include/mlx_rt.h"
+#include "../include/color.h"
 
 static inline void	put(uint8_t *pixels, int x, int y,
 		uint32_t color)
@@ -28,24 +29,75 @@ static inline void	put(uint8_t *pixels, int x, int y,
 	}
 }
 
+bool	is_hit_sphere(t_vec3 *center, double radius, t_ray *r)
+{
+	t_vec3	oc;
+	double	a;
+	double	b;
+	double	c;
+	double	discriminant;
+
+	oc = vec3_subtract(*center, r->origin);
+	a = vec3_dot(r->direction, r->direction);
+	b = -2.0 * vec3_dot(r->direction, oc);
+	c = vec3_dot(oc, oc) - radius * radius;
+	discriminant = b * b - 4 * a * c;
+	return (discriminant >= 0);
+}
+
+static t_color	ray_color(t_ray *r)
+{
+	t_vec3	unit_dir;
+	double	t;
+	t_color	white;
+	t_color	blue;
+	t_vec3	center;
+
+	center = vec3_create(0, 0, -1);
+	if (is_hit_sphere(&center, 0.5, r))
+		return (init_color(0xFF0000FF));
+	unit_dir = r->direction;
+	white = init_color(0xFFFFFFFF);
+	blue = init_color(0x0066FFFF);
+	t = 0.5 * (unit_dir.y + 1.0);
+	return (color_add(
+				color_scale(white, 1.0 - t),
+				color_scale(blue, t))
+		);
+}
+
 static void	drawing(t_minirt *minirt)
 {
-	uint32_t	color;
-	int			i;
-	int			j;
+	t_camera	camera;
+	int			x;
+	int			y;
+	double		u;
+	double		v;
+	t_vec3		pixel_center;
+	t_vec3		dir;
+	t_ray		r;
+	t_color		color;
 
-	color = 0xFF0000FF;
-	i = 0;
-	j = 0;
-	while (i < WIDTH)
+	camera = minirt->scene.camera;
+	y = 0;
+	while (y < HEIGHT)
 	{
-		j = 0;
-		while (j < HEIGHT)
+		x = 0;
+		while (x < WIDTH)
 		{
-			put(minirt->mlx.pixels, i, j, color);
-			j++;
+			u = (0.5 + x) / (WIDTH - 1.0);
+			v = (0.5 + y) / (HEIGHT - 1.0);
+			pixel_center = vec3_add(camera.lower_left_corner,
+					vec3_add(vec3_multiply(camera.horizontal, u), 
+						vec3_multiply(camera.vertical, v)));
+			dir = vec3_subtract(pixel_center, camera.position);
+			dir = vec3_normalize(dir);
+			r = ray_create(camera.position, dir);
+			color = ray_color(&r);
+			put(minirt->mlx.pixels, x, y, color_to_int32(color));
+			x++;
 		}
-		i++;
+		y++;
 	}
 }
 
