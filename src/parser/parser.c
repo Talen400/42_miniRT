@@ -11,3 +11,24 @@
 /* ************************************************************************** */
 
 #include "miniRt.h"
+
+bool	parse_scene(const char *filename, t_scene *scene)
+{
+	char *file_content;
+	int	 fd;
+
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+		return (false);
+	file_content = ft_gnl(fd);
+	while (file_content)
+	{
+		
+		// Aqui você processaria cada linha do arquivo
+		// Por exemplo, identificar o tipo de elemento (C, L, sp, pl, etc)
+		// e chamar a função de parsing correspondente
+		free(file_content);
+		file_content = ft_gnl(fd);
+	}
+	return (true);
+}
