@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.h                                           :+:      :+:    :+:   */
+/*   miniRt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: student <student@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 00:00:00 by student           #+#    #+#             */
-/*   Updated: 2026/01/28 00:00:00 by student          ###   ########.fr       */
+/*   Updated: 2026/02/02 13:20:02 by tlavared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,11 @@
 # include <unistd.h>     // read, write
 # include <stdio.h>      // printf (apenas para debugging)
 # include <stdbool.h>    // tipo bool (true/false)
+
 #include "vectors.h"   // Operações com vetores 3D
+
+#include "../MLX42/include/MLX42/MLX42.h"	// Lib da mlx
+#include "../libft/libft.h"					// lib da libft
 /* ========================================================================== */
 /*                              CONSTANTES                                    */
 /* ========================================================================== */
@@ -546,13 +550,13 @@ typedef struct s_scene
 
 typedef struct s_mlx_data
 {
-	void	*mlx_ptr;         // Ponteiro para instância da MLX
-	void	*win_ptr;         // Ponteiro para a janela
-	void	*img_ptr;         // Ponteiro para a imagem
-	char	*img_data;        // Array de pixels (dados brutos da imagem)
-	int		bits_per_pixel;   // Bits usados por cada pixel
-	int		line_length;      // Bytes por linha (com padding possível)
-	int		endian;           // Ordem dos bytes (0=little, 1=big endian)
+	mlx_t		*mlx_ptr;         // Ponteiro para instância da MLX
+	void		*win_ptr;         // Ponteiro para a janela
+	mlx_image_t	*img_ptr;         // Ponteiro para a imagem
+	uint8_t		*pixels;        // Array de pixels (dados brutos da imagem)
+	int			bits_per_pixel;   // Bits usados por cada pixel
+	int			line_length;      // Bytes por linha (com padding possível)
+	int			endian;           // Ordem dos bytes (0=little, 1=big endian)
 }	t_mlx_data;
 
 /*
@@ -567,7 +571,7 @@ typedef struct s_mlx_data
 **
 ** 1. scene: Todos os dados da cena 3D (câmera, luzes, objetos)
 **    Estes dados são lidos do arquivo .rt durante o parsing
-**
+*
 ** 2. mlx: Todos os dados da interface gráfica (janela, imagem, eventos)
 **    Estes dados são inicializados quando configuramos a MLX
 **
