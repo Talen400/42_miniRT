@@ -610,9 +610,6 @@ typedef struct s_minirt
 t_ray		ray_create(t_point3 origin, t_vec3 direction);
 t_point3	ray_at(t_ray ray, double t);
 
-/* ---------- Parser (parse_*.c) ---------- */
-bool		parse_scene(const char *filename, t_scene *scene);
-
 /* ---------- Rendering (render.c) ---------- */
 void		render_scene(t_minirt *rt);
 

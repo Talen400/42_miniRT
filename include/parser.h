@@ -14,8 +14,6 @@
 # define PARSER_H
 
 # include "miniRt.h"
-# include "vectors.h"
-# include <stdbool.h>
 
 /*
 ** ============================================================================
@@ -83,7 +81,9 @@
 ** ============================================================================
 */
 
-typedef bool (*t_parse_function)(const char *line, t_scene *scene, int line_num);
+typedef struct s_parse_context	t_parse_context;
+
+typedef bool (*t_parse_function)(t_parse_context *ctx, t_scene *scene, const char *line);
 
 /*
 ** ============================================================================
@@ -129,7 +129,7 @@ typedef bool (*t_parse_function)(const char *line, t_scene *scene, int line_num)
 typedef struct s_element_parser
 {
 	const char			*identifier;    // "A", "C", "L", "sp", "pl", "cy"
-	t_parse_function	parse_func;     // Ponteiro para a função de parsing
+	t_parse_function	parser;         // Ponteiro para a função de parsing
 }	t_element_parser;
 
 /*
@@ -196,15 +196,15 @@ typedef struct s_element_parser
 ** ============================================================================
 */
 
-typedef struct s_parse_context
+struct s_parse_context
 {
-	int			camera_count;      // Contador de câmeras (deve ser 1)
-	int			ambient_count;     // Contador de luzes ambiente (deve ser 1)
-	int			light_count;       // Contador de luzes pontuais (deve ser >= 1)
-	int			current_line;      // Número da linha atual (para erros)
-	const char	*filename;         // Nome do arquivo (para erros)
-	bool		error_occurred;    // Flag de erro
-}	t_parse_context;
+	int			camera_count;
+	int			ambient_count;
+	int			light_count;
+	int			current_line;
+	const char	*filename;
+	bool		error_occurred;
+};
 
 /*
 ** ===========================================================================
@@ -298,7 +298,7 @@ bool	parse_scene(const char *filename, t_scene *scene);
 ** Validações: intensidade em [0.0, 1.0], cores em [0, 255]
 ** Incrementa: ambient_count
 */
-bool	parse_ambient(const char *line, t_scene *scene, int line_num);
+bool	parse_ambient(t_parse_context *ctx, t_scene *scene, const char *line);
 
 /*
 ** parse_camera - Processa linha de câmera
@@ -308,7 +308,7 @@ bool	parse_ambient(const char *line, t_scene *scene, int line_num);
 ** Incrementa: camera_count
 ** Nota: Também calcula os vetores forward, right, up da câmera
 */
-bool	parse_camera(const char *line, t_scene *scene, int line_num);
+bool	parse_camera(t_parse_context *ctx, t_scene *scene, const char *line);
 
 /*
 ** parse_light - Processa linha de luz pontual
@@ -318,7 +318,7 @@ bool	parse_camera(const char *line, t_scene *scene, int line_num);
 ** Incrementa: light_count
 ** Nota: Cria novo nó na lista ligada de luzes
 */
-bool	parse_light(const char *line, t_scene *scene, int line_num);
+bool	parse_light(t_parse_context *ctx, t_scene *scene, const char *line);
 
 /*
 ** parse_sphere - Processa linha de esfera
@@ -327,7 +327,7 @@ bool	parse_light(const char *line, t_scene *scene, int line_num);
 ** Validações: diâmetro > 0, cores em [0, 255]
 ** Nota: Cria novo nó na lista ligada de objetos com type=SPHERE
 */
-bool	parse_sphere(const char *line, t_scene *scene, int line_num);
+bool	parse_sphere(t_parse_context *ctx, t_scene *scene, const char *line);
 
 /*
 ** parse_plane - Processa linha de plano
@@ -336,7 +336,7 @@ bool	parse_sphere(const char *line, t_scene *scene, int line_num);
 ** Validações: normal normalizada, cores em [0, 255]
 ** Nota: Cria novo nó na lista ligada de objetos com type=PLANE
 */
-bool	parse_plane(const char *line, t_scene *scene, int line_num);
+bool	parse_plane(t_parse_context *ctx, t_scene *scene, const char *line);
 
 /*
 ** parse_cylinder - Processa linha de cilindro
@@ -345,7 +345,7 @@ bool	parse_plane(const char *line, t_scene *scene, int line_num);
 ** Validações: eixo normalizado, diâmetro > 0, altura > 0, cores em [0, 255]
 ** Nota: Cria novo nó na lista ligada de objetos com type=CYLINDER
 */
-bool	parse_cylinder(const char *line, t_scene *scene, int line_num);
+bool	parse_cylinder(t_parse_context *ctx, t_scene *scene, const char *line);
 
 /*
 ** ===========================================================================
@@ -567,7 +567,11 @@ bool	validate_fov(double fov);
 ** - ctx: Ponteiro para contexto a inicializar
 ** - filename: Nome do arquivo sendo parseado (salvo no contexto)
 */
-void	init_parse_context(t_parse_context *ctx, const char *filename);
+bool	ft_isspace(char c);
+bool	ft_isempty_or_comment(const char *line);
+char	*extract_identifier(const char *line);
+bool	process_line(t_parse_context *context, t_scene *scene,
+			const char *line);
 
 /*
 ** validate_scene_counts - Valida contadores ao final do parsing
