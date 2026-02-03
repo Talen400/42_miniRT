@@ -81,14 +81,33 @@ int			ft_putstr_fd(const char *s, int fd);
 int			ft_putendl_fd(const char *s, int fd);
 int			ft_putnbr_fd(int n, int fd);
 
+
+
 /* ************************************************************************** */
-/*                              Bonus                                         */
+/*                              GNL                                           */
 /* ************************************************************************** */
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 32
+# endif
+
+
 typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
 }	t_list;
+char		*get_next_line(int fd);
+/* ************************************************************************** */
+/*                              Bonus                                         */
+/* ************************************************************************** */
+
+typedef struct s_fd_node
+{
+	int					fd;
+	char				*stash;
+	struct s_fd_node	*next;
+}	t_fd_node;
 
 t_list		*ft_lstlast(t_list *lst);
 int			ft_lstsize(t_list *lst);

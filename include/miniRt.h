@@ -27,7 +27,7 @@
 #include "vectors.h"   // Operações com vetores 3D
 
 #include "../MLX42/include/MLX42/MLX42.h"	// Lib da mlx
-#include "../libft/libft.h"					// lib da libft
+#include "../libft/include/libft.h"					// lib da libft
 /* ========================================================================== */
 /*                              CONSTANTES                                    */
 /* ========================================================================== */
