@@ -567,26 +567,10 @@ bool	validate_fov(double fov);
 ** - ctx: Ponteiro para contexto a inicializar
 ** - filename: Nome do arquivo sendo parseado (salvo no contexto)
 */
-bool	ft_isspace(char c);
 bool	ft_isempty_or_comment(const char *line);
 char	*extract_identifier(const char *line);
 bool	process_line(t_parse_context *context, t_scene *scene,
 			const char *line);
-
-/*
-** validate_scene_counts - Valida contadores ao final do parsing
-**
-** Verifica se a cena tem o número correto de cada elemento obrigatório.
-** Deve ser chamada após processar todas as linhas do arquivo.
-**
-** PARÂMETROS:
-** - ctx: Contexto contendo os contadores
-**
-** RETORNO:
-** - true se contadores estão corretos (1 câmera, 1 ambiente, >=1 luz)
-** - false caso contrário (imprime mensagem de erro específica)
-*/
-bool	validate_scene_counts(t_parse_context *ctx);
 
 /*
 ** ===========================================================================

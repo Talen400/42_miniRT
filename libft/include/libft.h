@@ -15,6 +15,7 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdbool.h>
 
 /* ************************************************************************** */
 /*                              CONVERSÃO                                     */
@@ -73,6 +74,7 @@ int			ft_isalnum(int c);
 int			ft_isascii(int c);
 int			ft_isprint(int c);
 int			ft_isnumeric(const char *s);
+bool		ft_isspace(char c);
 
 /* ************************************************************************** */
 /*                              Saidas                                        */

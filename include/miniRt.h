@@ -625,6 +625,7 @@ bool		hit_cylinder(t_ray ray, t_cylinder cylinder, double t_min,
 t_color		calculate_lighting(t_scene *scene, t_hit_record *rec);
 
 /* ---------- Utils (utils.c) ---------- */
+void		ft_free_split(char **split);
 void		error_exit(const char *message);
 void		free_scene(t_scene *scene);
 

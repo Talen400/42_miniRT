@@ -35,14 +35,30 @@ static t_parse_context ft_init_parse_context(const char *filename)
 	context.error_occurred = false;
 	return (context);
 }
-
-bool ft_isspace(char c)
+static bool validate_scene_counts(t_parse_context *ctx)
 {
-	return (c == ' ' || c == '\t' || c == '\n' ||
-			c == '\v' || c == '\f' || c == '\r');
+	if (ctx->camera_count != 1)
+	{
+		print_parse_error(ctx->filename, ctx->current_line,
+			(ctx->camera_count == 0) ? "No camera defined"
+			: "Multiple cameras defined");
+		return (false);
+	}
+	if (ctx->ambient_count != 1)
+	{
+		print_parse_error(ctx->filename, ctx->current_line,
+			(ctx->ambient_count == 0) ? "No ambient light defined"
+			: "Multiple ambient lights defined");
+		return (false);
+	}
+	if (ctx->light_count < 1)
+	{
+		print_parse_error(ctx->filename, ctx->current_line,
+			"No point lights defined");
+		return (false);
+	}
+	return (true);
 }
-
-
 
 bool	process_line(t_parse_context *context, t_scene *scene, const char *line)
 {
@@ -68,7 +84,6 @@ bool	process_line(t_parse_context *context, t_scene *scene, const char *line)
 		}
 		i++;
 	}
-	// print error
 	context->error_occurred = true;
 	free(identifier);
 	return (false);
