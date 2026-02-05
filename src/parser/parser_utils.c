@@ -34,6 +34,21 @@ char *extract_identifier(const char *line)
 	return (id);
 }
 
+static bool	validate_color_values(int *values, char **components)
+{
+	int	i;
+
+	i = 0;
+	while (i < 3)
+	{
+		values[i] = ft_atoi(components[i]);
+		if (values[i] < 0 || values[i] > 255)
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
 bool	parse_vector(const char *str, t_vec3 *vec)
 {
 	char	**components;
@@ -41,8 +56,7 @@ bool	parse_vector(const char *str, t_vec3 *vec)
 	components = ft_split(str, ',');
 	if (!components)
 		return (false);
-	if (!components[0] || !components[1] || !components[2]
-		|| components[3] != NULL)
+	if (ft_array_size((void **)components) != 3)
 	{
 		ft_free_split(components);
 		return (false);
@@ -57,24 +71,23 @@ bool	parse_vector(const char *str, t_vec3 *vec)
 bool	parse_color(const char *str, t_color *color)
 {
 	char	**components;
+	int		values[3];
 
 	components = ft_split(str, ',');
-	if (!components)
+	if (!components || ft_array_size((void **)components) != 3)
+	{
+		if (components)
+			ft_free_split(components);
 		return (false);
-	if (!components[0] || !components[1] || !components[2]
-		|| components[3] != NULL)
+	}
+	if (!validate_color_values(values, components))
 	{
 		ft_free_split(components);
 		return (false);
 	}
-	color->r = ft_atoi(components[0]);
-	color->g = ft_atoi(components[1]);
-	color->b = ft_atoi(components[2]);
-	if (color->r < 0 || color->r > 255 || color->g < 0 || color->g > 255 || color->b < 0 || color->b > 255)
-	{
-		ft_free_split(components);
-		return (false);
-	}
+	color->x = (double)values[0] / 255.0;
+	color->y = (double)values[1] / 255.0;
+	color->z = (double)values[2] / 255.0;
 	ft_free_split(components);
 	return (true);
 }

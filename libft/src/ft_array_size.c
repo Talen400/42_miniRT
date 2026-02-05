@@ -1,34 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_rodrigo.c                                     :+:      :+:    :+:   */
+/*   ft_array_size.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgregori <rgregori@student.42sp.org.br>    #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026-02-02 17:06:08 by rgregori          #+#    #+#             */
-/*   Updated: 2026-02-02 17:06:08 by rgregori         ###   ########.fr       */
+/*   Created: 2026-02-05 17:56:31 by rgregori          #+#    #+#             */
+/*   Updated: 2026-02-05 17:56:31 by rgregori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRt.h"
-#include <stdio.h>
+#include "libft.h"
 
-
-int main(int argc, char **argv)
+size_t	ft_array_size(void **array)
 {
-	t_scene	scene;
+	size_t	count;
 
-	if (argc != 2)
-	{
-		printf("Usage: %s <scene.rt>\n", argv[0]);
-		return (1);
-	}
-	scene = scene_init();
-	if (!parse_scene(argv[1], scene))
-	{
-		printf("Error parsing scene file: %s\n", argv[1]);
-		free(scene);
-		return (1);
-	}
-	return (0);
+	if (!array)
+		return (0);
+	count = 0;
+	while (array[count])
+		count++;
+	return (count);
 }

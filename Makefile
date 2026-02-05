@@ -22,6 +22,8 @@ NAME              := miniRT
 
 # Fontes do projeto
 SRCS              := src/main.c \
+					 src/utils.c \
+					 src/parser/parser_error.c \
 					 src/vectors/vec_basic.c \
 					 src/vectors/vec_advanced.c \
 					 src/mlx_utils.c \

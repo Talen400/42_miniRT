@@ -410,27 +410,6 @@ bool	parse_vector(const char *str, t_vec3 *vec);
 bool	parse_color(const char *str, t_color *color);
 
 /*
-** parse_double - Converte string para double com validação
-**
-** Wrapper seguro em torno de atof que também valida que a string é
-** realmente um número válido.
-**
-** PARÂMETROS:
-** - str: String contendo número
-** - value: Ponteiro onde o valor convertido será armazenado
-**
-** RETORNO:
-** - true se conversão foi bem sucedida
-** - false se string não é um número válido
-**
-** VALIDAÇÕES:
-** - String não vazia
-** - Formato de número válido (pode ter sinal, ponto decimal)
-** - Não tem caracteres inválidos depois do número
-*/
-bool	parse_double(const char *str, double *value);
-
-/*
 ** is_valid_identifier - Verifica se string é um identificador válido
 **
 ** Verifica se uma string corresponde a algum identificador conhecido
@@ -522,19 +501,6 @@ bool	validate_normalized(t_vec3 vec);
 */
 bool	validate_color_component(double value);
 
-/*
-** validate_ratio - Verifica se valor está em [0.0, 1.0]
-**
-** Valida valores que representam proporções ou intensidades, como
-** brilho de luz ou intensidade de luz ambiente.
-**
-** PARÂMETROS:
-** - value: Valor a verificar
-**
-** RETORNO:
-** - true se value >= 0.0 && value <= 1.0
-** - false caso contrário
-*/
 bool	validate_ratio(double value);
 
 /*
@@ -614,33 +580,10 @@ bool	add_object_to_scene(t_scene *scene, t_object *obj);
 */
 bool	add_light_to_scene(t_scene *scene, t_light *light);
 
-/*
-** ===========================================================================
-**                       PROTÓTIPOS - ERROR HANDLING
-** ===========================================================================
-*/
-
-/*
-** print_parse_error - Imprime mensagem de erro formatada
-**
-** Centraliza a impressão de erros de parsing para que todas as mensagens
-** sigam o mesmo formato.
-**
-** FORMATO DA MENSAGEM:
-** "Error\nFile 'filename' line N: <message>"
-**
-** PARÂMETROS:
-** - filename: Nome do arquivo
-** - line_num: Número da linha onde ocorreu o erro
-** - message: Descrição do erro
-**
-** EXEMPLO:
-**     print_parse_error("scene.rt", 5, "Invalid sphere diameter");
-**     // Imprime: "Error\nFile 'scene.rt' line 5: Invalid sphere diameter"
-*/
 void	print_parse_error(const char *filename, int line_num, 
 			const char *message);
-
+void	ft_error_and_free(t_parse_context *ctx, char **tokens,
+			const char *message);
 /*
 ** ===========================================================================
 **                          TABELA DE LOOKUP
