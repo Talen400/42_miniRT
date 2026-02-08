@@ -27,7 +27,7 @@
 #include "vectors.h"   // Operações com vetores 3D
 
 #include "../MLX42/include/MLX42/MLX42.h"	// Lib da mlx
-#include "../libft/include/libft.h"					// lib da libft
+#include "../libft/include/libft.h"			// lib da libft
 /* ========================================================================== */
 /*                              CONSTANTES                                    */
 /* ========================================================================== */
@@ -305,7 +305,7 @@ typedef struct s_plane
 	t_point3	point;        // Qualquer ponto no plano
 	t_vec3		normal;       // Vetor perpendicular ao plano (normalizado)
 	t_color		color;        // Cor da superfície (RGB)
-}	t_plane;add_light_to_scene
+}	t_plane;
 
 /*
 ** ============================================================================
@@ -367,9 +367,9 @@ typedef struct s_cylinder
 
 typedef enum e_object_type
 {
-	SPHERE,       // Esfera
-	PLANE,        // Plano
-	CYLINDER      // Cilindro
+	SPHERE,
+	PLANE,
+	CYLINDER
 }	t_object_type;
 
 /*
@@ -605,7 +605,7 @@ typedef struct s_minirt
 ** Aqui virão os protótipos das funções que você implementará.
 ** Por enquanto, apenas alguns exemplos para ilustrar a organização:
 */
-t_scene		scene_init(void);
+
 /* ---------- Operações com Raios (ray_ops.c) ---------- */
 t_ray		ray_create(t_point3 origin, t_vec3 direction);
 t_point3	ray_at(t_ray ray, double t);
@@ -627,6 +627,5 @@ t_color		calculate_lighting(t_scene *scene, t_hit_record *rec);
 /* ---------- Utils (utils.c) ---------- */
 void		ft_free_split(char **split);
 void		error_exit(const char *message);
-void		free_scene(t_scene *scene);
 
 #endif

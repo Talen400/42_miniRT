@@ -16,8 +16,8 @@ t_scene scene_init(void)
 {
 	t_scene scene;
 
-	scene.camera = NULL;
-	scene.ambient = NULL;
+	scene.camera = (t_camera){};
+	scene.ambient = (t_ambient){};
 	scene.lights = NULL;
 	scene.objects = NULL;
 	scene.width = WIDTH;

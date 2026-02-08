@@ -23,12 +23,20 @@ NAME              := miniRT
 # Fontes do projeto
 SRCS              := src/main.c \
 					 src/utils.c \
+					 src/scene/scene.c \
+					 src/scene/object_utils.c \
+					 src/parser/parser_ambient.c \
+					 src/parser/parser_camera.c \
+					 src/parser/parser_cylinder.c \
+					 src/parser/parser_light.c \
+					 src/parser/parser_plane.c \
+					 src/parser/parser_sphere.c \
 					 src/parser/parser_error.c \
+                     src/parser/parser.c \
+                     src/parser/parser_utils.c \
 					 src/vectors/vec_basic.c \
 					 src/vectors/vec_advanced.c \
 					 src/mlx_utils.c \
-                     src/parser/parser.c \
-                     src/parser/parser_utils.c \
 					 src/draw/draw.c
 
 OBJS              := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))

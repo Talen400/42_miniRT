@@ -33,6 +33,6 @@ void	print_parse_error(const char *filename, int line_num,
 
 void	ft_error_and_free(t_parse_context *ctx, char **tokens, const char *message)
 {
-	print_parse_error(ctx->filename, ctx->line_num, message);
+	print_parse_error(ctx->filename, ctx->current_line, message);
 	ft_free_split(tokens);
 }

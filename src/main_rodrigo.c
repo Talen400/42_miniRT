@@ -11,6 +11,9 @@
 /* ************************************************************************** */
 
 #include "miniRt.h"
+#include "parser.h"
+#include "scene.h"
+
 #include <stdio.h>
 
 

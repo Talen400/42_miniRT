@@ -52,7 +52,7 @@ bool	parse_ambient(t_parse_context *ctx, t_scene *scene, const char *line)
 	tokens = ft_split(line, ' ');
 	if (!tokens)
 		return (false);
-	if (!validate_ambient((const char **)tokens, ctx, &intensity, &color))
+	if (!validate_ambient(tokens, ctx, &intensity, &color))
 		return (false);
 	scene->ambient.intensity = intensity;
 	scene->ambient.color = color;

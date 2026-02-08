@@ -14,6 +14,7 @@
 # define PARSER_H
 
 # include "miniRt.h"
+# include "scene.h"
 
 /*
 ** ============================================================================
@@ -125,6 +126,46 @@ typedef bool (*t_parse_function)(t_parse_context *ctx, t_scene *scene, const cha
 ** novos tipos sem modificar a lógica principal do parser.
 ** ============================================================================
 */
+typedef struct s_light_data
+{
+	t_point3	position;
+	double		brightness;
+	t_color		color;
+}	t_light_data;
+
+// Para câmera
+typedef struct s_camera_data
+{
+	t_point3	position;
+	t_vec3		orientation;
+	double		fov;
+}	t_camera_data;
+
+// Para esfera
+typedef struct s_sphere_data
+{
+	t_point3	center;
+	double		diameter;
+	t_color		color;
+}	t_sphere_data;
+
+// Para plano
+typedef struct s_plane_data
+{
+	t_point3	point;
+	t_vec3		normal;
+	t_color		color;
+}	t_plane_data;
+
+// Para cilindro
+typedef struct s_cylinder_data
+{
+	t_point3	center;
+	t_vec3		axis;
+	double		diameter;
+	double		height;
+	t_color		color;
+}	t_cylinder_data;
 
 typedef struct s_element_parser
 {
@@ -537,48 +578,6 @@ bool	ft_isempty_or_comment(const char *line);
 char	*extract_identifier(const char *line);
 bool	process_line(t_parse_context *context, t_scene *scene,
 			const char *line);
-
-/*
-** ===========================================================================
-**                    PROTÓTIPOS - MANIPULAÇÃO DE LISTAS
-** ===========================================================================
-**
-** Funções para adicionar elementos nas listas ligadas de objetos e luzes.
-*/
-
-/*
-** add_object_to_scene - Adiciona objeto na lista de objetos da cena
-**
-** Cria um novo nó de lista ligada e adiciona no final (ou início) da
-** lista de objetos.
-**
-** PARÂMETROS:
-** - scene: Cena onde adicionar o objeto
-** - obj: Ponteiro para o objeto já alocado e preenchido
-**
-** RETORNO:
-** - true se adição foi bem sucedida
-** - false se falha de alocação
-**
-** NOTA: A função NÃO aloca o objeto em si, apenas o nó da lista.
-** O objeto já deve estar alocado antes de chamar esta função.
-*/
-bool	add_object_to_scene(t_scene *scene, t_object *obj);
-
-/*
-** add_light_to_scene - Adiciona luz na lista de luzes da cena
-**
-** Similar a add_object_to_scene, mas para luzes pontuais.
-**
-** PARÂMETROS:
-** - scene: Cena onde adicionar a luz
-** - light: Ponteiro para a luz já alocada e preenchida
-**
-** RETORNO:
-** - true se adição foi bem sucedida
-** - false se falha de alocação
-*/
-bool	add_light_to_scene(t_scene *scene, t_light *light);
 
 void	print_parse_error(const char *filename, int line_num, 
 			const char *message);
