@@ -28,41 +28,24 @@ static inline void	put(uint8_t *pixels, int x, int y,
 		pixels[index + 3] = color & 0xFF;
 	}
 }
-/*
-bool	is_hit_sphere(t_vec3 *center, double radius, t_ray *r)
-{
-	t_vec3	oc;
-	double	a;
-	double	b;
-	double	c;
-	double	discriminant;
-
-	oc = vec3_subtract(*center, r->origin);
-	a = vec3_dot(r->direction, r->direction);
-	b = -2.0 * vec3_dot(r->direction, oc);
-	c = vec3_dot(oc, oc) - radius * radius;
-	discriminant = b * b - 4 * a * c;
-	return (discriminant >= 0);
-}
-*/
 
 double	is_hit_sphere(t_vec3 *center, double radius, t_ray *r)
 {
 	t_vec3	oc;
 	double	a;
-	double	b;
+	double	h;
 	double	c;
 	double	discriminant;
 
 	oc = vec3_subtract(*center, r->origin);
-	a = vec3_dot(r->direction, r->direction);
-	b = -2.0 * vec3_dot(r->direction, oc);
-	c = vec3_dot(oc, oc) - radius * radius;
-	discriminant = b * b - 4 * a * c;
+	a = vec3_length(r->direction);
+	h = vec3_dot(r->direction, oc);
+	c = vec3_length(oc) - radius * radius;
+	discriminant = h * h - a * c;
 	if (discriminant < 0)
 		return -1.0;
 	else
-		return ((-b - sqrt(discriminant)) / (2.0 * a));
+		return ((h - sqrt(discriminant)) / a);
 }
 
 

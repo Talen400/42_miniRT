@@ -22,6 +22,7 @@ t_camera	init_camera(void)
 	t_vec3	tmp2;
 
 	camera.fov = 1.0;
+	// Calculo da proporção da câmera
 	camera.viewport_height = 2.0;
 	camera.viewport_width = camera.viewport_height * ((double) WIDTH / (double) HEIGHT);
 	camera.position = vec3_create(0, 0, 0);
