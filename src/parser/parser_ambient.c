@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "miniRt.h"
 #include "parser.h"
 
 bool validate_ratio(double ratio)
