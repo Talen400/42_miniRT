@@ -27,9 +27,8 @@
 #include "vectors.h"   // Operações com vetores 3D
 
 #include "../MLX42/include/MLX42/MLX42.h"	// Lib da mlx
-#include "../libft/libft.h"					// lib da libft
-											//
 #include "color.h"
+#include "../libft/include/libft.h"			// lib da libft
 /* ========================================================================== */
 /*                              CONSTANTES                                    */
 /* ========================================================================== */
@@ -368,9 +367,9 @@ typedef struct s_cylinder
 
 typedef enum e_object_type
 {
-	SPHERE,       // Esfera
-	PLANE,        // Plano
-	CYLINDER      // Cilindro
+	SPHERE,
+	PLANE,
+	CYLINDER
 }	t_object_type;
 
 /*
@@ -611,9 +610,6 @@ typedef struct s_minirt
 t_ray		ray_create(t_point3 origin, t_vec3 direction);
 //t_vec3	ray_at(t_ray ray, double t);
 
-/* ---------- Parser (parse_*.c) ---------- */
-bool		parse_scene(const char *filename, t_scene *scene);
-
 /* ---------- Rendering (render.c) ---------- */
 void		render_scene(t_minirt *rt);
 
@@ -629,7 +625,7 @@ bool		hit_cylinder(t_ray ray, t_cylinder cylinder, double t_min,
 t_color		calculate_lighting(t_scene *scene, t_hit_record *rec);
 
 /* ---------- Utils (utils.c) ---------- */
+void		ft_free_split(char **split);
 void		error_exit(const char *message);
-void		free_scene(t_scene *scene);
 
 #endif
