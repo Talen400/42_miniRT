@@ -37,8 +37,6 @@ SRCS              := src/main.c \
 					 src/vectors/vec_basic.c \
 					 src/vectors/vec_advanced.c \
 					 src/mlx_utils.c \
-                     src/parser/parser.c \
-                     src/parser/parser_utils.c \
 					 src/draw/draw.c \
 					 src/color/color_convert.c \
 					 src/color/color_operations.c \
