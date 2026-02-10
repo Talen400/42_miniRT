@@ -66,7 +66,7 @@ static t_color	sky_color(t_ray *r)
 			color_scale(blue, t)));
 }
 
-static bool	hit_scene(t_ray *r, t_object *objects, t_hit_record *rec)
+bool	hit_scene(t_ray *r, t_object *objects, t_hit_record *rec)
 {
 	t_object	*obj;
 	double		closest;
@@ -83,6 +83,39 @@ static bool	hit_scene(t_ray *r, t_object *objects, t_hit_record *rec)
 			t = is_hit_sphere(&obj->shape.sphere.center,
 					obj->shape.sphere.radius, r);
 			if (t > T_MIN && t < closest)
+			{
+				closest = t;
+				hit_any = true;
+				rec->t = t;
+				rec->point = vec3_add(r->origin,
+						vec3_multiply(r->direction, t));
+				rec->normal = vec3_normalize(vec3_subtract(rec->point,
+							obj->shape.sphere.center));
+				rec->color = obj->shape.sphere.color;
+			}
+		}
+		obj = obj->next;
+	}
+	return (hit_any);
+}
+
+bool	hit_scene_shadow(t_ray *r, t_object *objects, t_hit_record *rec)
+{
+	t_object	*obj;
+	double		closest;
+	double		t;
+	bool		hit_any;
+
+	closest = T_MAX;
+	hit_any = false;
+	obj = objects;
+	while (obj)
+	{
+		if (obj->type == SPHERE)
+		{
+			t = is_hit_sphere(&obj->shape.sphere.center,
+					obj->shape.sphere.radius, r);
+			if (t > 0.1 && t < closest)
 			{
 				closest = t;
 				hit_any = true;

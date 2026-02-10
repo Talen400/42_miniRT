@@ -30,6 +30,7 @@ uint32_t	color_to_int32(t_color color);
 // color_operations.c
 t_color		color_add(t_color a, t_color b);
 t_color		color_subtract(t_color a, t_color b);
-t_color	color_scale(t_color c, double t);
+t_color		color_scale(t_color c, double t);
+t_color		color_clamp(t_color c);
 
 #endif

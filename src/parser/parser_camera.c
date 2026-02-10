@@ -91,6 +91,7 @@ static void	calculate_viewport(t_camera *camera)
 		* (WIDTH / (double)HEIGHT);
 	horizontal = vec3_multiply(camera->right, camera->viewport_width);
 	vertical = vec3_multiply(camera->up, camera->viewport_height);
+	vertical.y *= -1;
 	camera->lower_left_corner = camera->position;
 	camera->lower_left_corner = vec3_add(camera->lower_left_corner,
 			camera->forward);

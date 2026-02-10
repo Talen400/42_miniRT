@@ -612,7 +612,8 @@ t_ray		ray_create(t_point3 origin, t_vec3 direction);
 
 /* ---------- Rendering (render.c) ---------- */
 void		render_scene(t_minirt *rt);
-
+bool	hit_scene(t_ray *r, t_object *objects, t_hit_record *rec);
+bool	hit_scene_shadow(t_ray *r, t_object *objects, t_hit_record *rec);
 /* ---------- Interseções (intersect_*.c) ---------- */
 bool		hit_sphere(t_ray ray, t_sphere sphere, double t_min,
 				double t_max, t_hit_record *rec);
