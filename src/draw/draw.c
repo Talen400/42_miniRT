@@ -38,9 +38,9 @@ double	is_hit_sphere(t_vec3 *center, double radius, t_ray *r)
 	double	discriminant;
 
 	oc = vec3_subtract(*center, r->origin);
-	a = vec3_length(r->direction);
+	a = vec3_dot(r->direction, r->direction);
 	h = vec3_dot(r->direction, oc);
-	c = vec3_length(oc) - radius * radius;
+	c = vec3_dot(oc, oc) - radius * radius;
 	discriminant = h * h - a * c;
 	if (discriminant < 0)
 		return -1.0;
@@ -50,38 +50,66 @@ double	is_hit_sphere(t_vec3 *center, double radius, t_ray *r)
 
 
 
-static t_color	ray_color(t_ray *r)
+static t_color	sky_color(t_ray *r)
 {
 	t_vec3	unit_dir;
 	double	t;
 	t_color	white;
 	t_color	blue;
-	t_vec3	center;
-	t_vec3	norm_surface;
-	t_vec3	hit_intersec;
-	t_color	norm_color;
 
-	center = vec3_create(0, 0, -1);
-	t = is_hit_sphere(&center, 0.5, r);
-	if (t > 0.0)
-	{
-		hit_intersec = vec3_add(r->origin, vec3_multiply(r->direction, t));
-		norm_surface = vec3_normalize(vec3_subtract(hit_intersec, center));
-		norm_color.r = (norm_surface.x + 1.0) * 0.5 * 255;
-		norm_color.g = (norm_surface.y + 1.0) * 0.5 * 255;
-		norm_color.b = (norm_surface.z + 1.0) * 0.5 * 255;
-		norm_color.a = 255.0;
-		return (norm_color);
-	}
-	// Shy
 	unit_dir = r->direction;
 	white = init_color(0xFFFFFFFF);
 	blue = init_color(0x0066FFFF);
 	t = 0.5 * (unit_dir.y + 1.0);
 	return (color_add(
-				color_scale(white, 1.0 - t),
-				color_scale(blue, t))
-		);
+			color_scale(white, 1.0 - t),
+			color_scale(blue, t)));
+}
+
+static bool	hit_scene(t_ray *r, t_object *objects, t_hit_record *rec)
+{
+	t_object	*obj;
+	double		closest;
+	double		t;
+	bool		hit_any;
+
+	closest = T_MAX;
+	hit_any = false;
+	obj = objects;
+	while (obj)
+	{
+		if (obj->type == SPHERE)
+		{
+			t = is_hit_sphere(&obj->shape.sphere.center,
+					obj->shape.sphere.radius, r);
+			if (t > T_MIN && t < closest)
+			{
+				closest = t;
+				hit_any = true;
+				rec->t = t;
+				rec->point = vec3_add(r->origin,
+						vec3_multiply(r->direction, t));
+				rec->normal = vec3_normalize(vec3_subtract(rec->point,
+							obj->shape.sphere.center));
+				rec->color = obj->shape.sphere.color;
+			}
+		}
+		obj = obj->next;
+	}
+	return (hit_any);
+}
+
+static t_color	ray_color(t_ray *r, t_scene *scene)
+{
+	t_hit_record	rec;
+	t_color			norm_color;
+
+	if (hit_scene(r, scene->objects, &rec))
+	{
+		norm_color = calculate_lighting(scene, &rec);
+		return (norm_color);
+	}
+	return (sky_color(r));
 }
 
 static void	drawing(t_minirt *minirt)
@@ -111,7 +139,7 @@ static void	drawing(t_minirt *minirt)
 			dir = vec3_subtract(pixel_center, camera.position);
 			dir = vec3_normalize(dir);
 			r = ray_create(camera.position, dir);
-			color = ray_color(&r);
+			color = ray_color(&r, &minirt->scene);
 			put(minirt->mlx.pixels, x, y, color_to_int32(color));
 			x++;
 		}

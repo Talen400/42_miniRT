@@ -83,30 +83,6 @@ static void	print_scene(t_scene *scene)
 	printf("\n=== END ===\n");
 }
 
-void	init_camera(t_minirt *minirt)
-{
-	t_camera *camera;
-	t_vec3	tmp1;
-	t_vec3	tmp2;
-
-	camera = &minirt->scene.camera;
-	// Calculo da proporção da câmera
-	camera->viewport_height = 2.0;
-	camera->viewport_width = camera->viewport_height * ((double) WIDTH / (double) HEIGHT);
-	camera->horizontal = vec3_create(camera->viewport_width, 0.0, 0.0);
-	camera->vertical = vec3_create(0.0, -camera->viewport_height, 0.0);
-	// P - CH/2 - CV/2 - FOV
-	tmp1 = vec3_subtract(camera->position, vec3_divide(camera->horizontal, 2));
-	tmp2 = vec3_subtract(tmp1, vec3_divide(camera->vertical, 2));
-	camera->lower_left_corner = vec3_subtract(tmp2, vec3_create(0.0, 0.0, camera->fov));
-}
-
-int	init_scene(t_minirt *minirt)
-{
-	init_camera(minirt);
-	return (0);
-}
-
 int	init_mlx(t_minirt *minirt)
 {
 	minirt->mlx.mlx_ptr = mlx_init(WIDTH, HEIGHT, "miniRt", true);
@@ -138,8 +114,6 @@ int	main(int argc, char **argv)
 	(void ) argv;
 	print_scene(&minirt.scene);
 	if (init_mlx(&minirt))
-		return (1);
-	if (init_scene(&minirt))
 		return (1);
 	draw(&minirt);
 	if (mlx_image_to_window(minirt.mlx.mlx_ptr,	minirt.mlx.img_ptr, 0, 0) == -1)

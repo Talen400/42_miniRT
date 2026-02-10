@@ -57,10 +57,10 @@ t_vec3		vec3_divide(t_vec3 v, double scalar)
 	t_vec3	result;
 
 	if (scalar == 0)
-		 //error_exit("Division by zero in vec3_divide");
 		 scalar = 0.0001;
 	result.x = v.x / scalar;
 	result.y = v.y / scalar;
 	result.z = v.z / scalar;
 	return (result);
 }
+

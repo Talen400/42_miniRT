@@ -34,15 +34,11 @@ SRCS              := src/main.c \
 					 src/parser/parser_error.c \
                      src/parser/parser.c \
                      src/parser/parser_utils.c \
-					 src/render/camera.c \
-					 src/render/intersect_plane.c \
-					 src/render/intersect_sphere.c \
-					 src/render/ray.c \
-					 src/render/render.c \
 					 src/vectors/vec_basic.c \
 					 src/vectors/vec_advanced.c \
 					 src/mlx_utils.c \
 					 src/draw/draw.c \
+					 src/lighting/lighting.c \
 					 src/color/color_convert.c \
 					 src/color/color_operations.c \
 					 src/ray/ray_utils.c
