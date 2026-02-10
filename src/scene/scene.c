@@ -24,3 +24,4 @@ t_scene scene_init(void)
 	scene.height = HEIGHT;
 	return (scene);
 }
+

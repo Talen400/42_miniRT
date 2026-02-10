@@ -609,7 +609,7 @@ typedef struct s_minirt
 /* ---------- Operações com Raios (ray_ops.c) ---------- */
 t_ray		ray_create(t_point3 origin, t_vec3 direction);
 t_point3	ray_at(t_ray ray, double t);
-
+void    init_camera(t_camera *cam);
 /* ---------- Rendering (render.c) ---------- */
 void		render_scene(t_minirt *rt);
 
