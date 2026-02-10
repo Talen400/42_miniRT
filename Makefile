@@ -39,7 +39,6 @@ SRCS              := src/main.c \
 					 src/render/intersect_sphere.c \
 					 src/render/ray.c \
 					 src/render/render.c \
-					 src/render/lighting.c \
 					 src/vectors/vec_basic.c \
 					 src/vectors/vec_advanced.c \
 					 src/mlx_utils.c \
