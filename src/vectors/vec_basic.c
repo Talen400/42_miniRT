@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vec_basic.c                                          :+:      :+:    :+: */
+/*   vec_basic.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rgregori <rgregori@student.42sp.org.br>    #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026-02-02 14:29:54 by rgregori          #+#    #+#             */
-/*   Updated: 2026-02-02 14:29:54 by rgregori         ###   ########.fr       */
+/*   Updated: 2026/02/02 18:38:48 by tlavared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ t_vec3		vec3_divide(t_vec3 v, double scalar)
 
 	if (scalar == 0)
 		 //error_exit("Division by zero in vec3_divide");
+		 scalar = 0.0001;
 	result.x = v.x / scalar;
 	result.y = v.y / scalar;
 	result.z = v.z / scalar;

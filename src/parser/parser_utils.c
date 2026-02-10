@@ -85,9 +85,9 @@ bool	parse_color(const char *str, t_color *color)
 		ft_free_split(components);
 		return (false);
 	}
-	color->x = (double)values[0] / 255.0;
-	color->y = (double)values[1] / 255.0;
-	color->z = (double)values[2] / 255.0;
+	color->r = (double)values[0] / 255.0;
+	color->g = (double)values[1] / 255.0;
+	color->b = (double)values[2] / 255.0;
 	ft_free_split(components);
 	return (true);
 }
