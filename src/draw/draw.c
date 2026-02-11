@@ -13,42 +13,7 @@
 #include "../include/miniRt.h"
 #include "../include/mlx_rt.h"
 #include "../include/color.h"
-
-static inline void	put(uint8_t *pixels, int x, int y,
-		uint32_t color)
-{
-	int	index;
-
-	if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
-	{
-		index = (y * WIDTH + x) * 4;
-		pixels[index + 0] = (color >> 24) & 0xFF;
-		pixels[index + 1] = (color >> 16) & 0xFF;
-		pixels[index + 2] = (color >> 8) & 0xFF;
-		pixels[index + 3] = color & 0xFF;
-	}
-}
-
-double	is_hit_sphere(t_vec3 *center, double radius, t_ray *r)
-{
-	t_vec3	oc;
-	double	a;
-	double	h;
-	double	c;
-	double	discriminant;
-
-	oc = vec3_subtract(*center, r->origin);
-	a = vec3_dot(r->direction, r->direction);
-	h = vec3_dot(r->direction, oc);
-	c = vec3_dot(oc, oc) - radius * radius;
-	discriminant = h * h - a * c;
-	if (discriminant < 0)
-		return -1.0;
-	else
-		return ((h - sqrt(discriminant)) / a);
-}
-
-
+#include "intersect.h"
 
 static t_color	sky_color(t_ray *r)
 {
@@ -66,78 +31,12 @@ static t_color	sky_color(t_ray *r)
 			color_scale(blue, t)));
 }
 
-bool	hit_scene(t_ray *r, t_object *objects, t_hit_record *rec)
-{
-	t_object	*obj;
-	double		closest;
-	double		t;
-	bool		hit_any;
-
-	closest = T_MAX;
-	hit_any = false;
-	obj = objects;
-	while (obj)
-	{
-		if (obj->type == SPHERE)
-		{
-			t = is_hit_sphere(&obj->shape.sphere.center,
-					obj->shape.sphere.radius, r);
-			if (t > T_MIN && t < closest)
-			{
-				closest = t;
-				hit_any = true;
-				rec->t = t;
-				rec->point = vec3_add(r->origin,
-						vec3_multiply(r->direction, t));
-				rec->normal = vec3_normalize(vec3_subtract(rec->point,
-							obj->shape.sphere.center));
-				rec->color = obj->shape.sphere.color;
-			}
-		}
-		obj = obj->next;
-	}
-	return (hit_any);
-}
-
-bool	hit_scene_shadow(t_ray *r, t_object *objects, t_hit_record *rec)
-{
-	t_object	*obj;
-	double		closest;
-	double		t;
-	bool		hit_any;
-
-	closest = T_MAX;
-	hit_any = false;
-	obj = objects;
-	while (obj)
-	{
-		if (obj->type == SPHERE)
-		{
-			t = is_hit_sphere(&obj->shape.sphere.center,
-					obj->shape.sphere.radius, r);
-			if (t > 0.1 && t < closest)
-			{
-				closest = t;
-				hit_any = true;
-				rec->t = t;
-				rec->point = vec3_add(r->origin,
-						vec3_multiply(r->direction, t));
-				rec->normal = vec3_normalize(vec3_subtract(rec->point,
-							obj->shape.sphere.center));
-				rec->color = obj->shape.sphere.color;
-			}
-		}
-		obj = obj->next;
-	}
-	return (hit_any);
-}
-
 static t_color	ray_color(t_ray *r, t_scene *scene)
 {
 	t_hit_record	rec;
 	t_color			norm_color;
 
-	if (hit_scene(r, scene->objects, &rec))
+	if (hit_scene(r, scene->objects, &rec, T_MIN))
 	{
 		norm_color = calculate_lighting(scene, &rec);
 		return (norm_color);
@@ -145,35 +44,38 @@ static t_color	ray_color(t_ray *r, t_scene *scene)
 	return (sky_color(r));
 }
 
+static t_ray	pixel_ray(t_camera *cam, int x, int y, t_scene *scene)
+{
+	double	u;
+	double	v;
+	t_vec3	pixel_center;
+	t_vec3	dir;
+
+	u = (0.5 + x) / (scene->width - 1.0);
+	v = (0.5 + y) / (scene->height - 1.0);
+	pixel_center = vec3_add(cam->lower_left_corner,
+			vec3_add(vec3_multiply(cam->horizontal, u),
+				vec3_multiply(cam->vertical, v)));
+	dir = vec3_normalize(vec3_subtract(pixel_center, cam->position));
+	return (ray_create(cam->position, dir));
+}
+
 static void	drawing(t_minirt *minirt)
 {
-	t_camera	camera;
-	int			x;
-	int			y;
-	double		u;
-	double		v;
-	t_vec3		pixel_center;
-	t_vec3		dir;
-	t_ray		r;
-	t_color		color;
+	int		x;
+	int		y;
+	t_ray	r;
+	t_color	color;
 
-	camera = minirt->scene.camera;
 	y = 0;
-	while (y < HEIGHT)
+	while (y < minirt->scene.height)
 	{
 		x = 0;
-		while (x < WIDTH)
+		while (x < minirt->scene.width)
 		{
-			u = (0.5 + x) / (WIDTH - 1.0);
-			v = (0.5 + y) / (HEIGHT - 1.0);
-			pixel_center = vec3_add(camera.lower_left_corner,
-					vec3_add(vec3_multiply(camera.horizontal, u), 
-						vec3_multiply(camera.vertical, v)));
-			dir = vec3_subtract(pixel_center, camera.position);
-			dir = vec3_normalize(dir);
-			r = ray_create(camera.position, dir);
+			r = pixel_ray(&minirt->scene.camera, x, y, &minirt->scene);
 			color = ray_color(&r, &minirt->scene);
-			put(minirt->mlx.pixels, x, y, color_to_int32(color));
+			put(minirt, x, y, color_to_int32(color));
 			x++;
 		}
 		y++;
@@ -182,7 +84,7 @@ static void	drawing(t_minirt *minirt)
 
 int	draw(t_minirt *minirt)
 {
-	ft_clearimg(minirt->mlx.pixels);
+	ft_clearimg(minirt);
 	drawing(minirt);
 	return (0);
 }

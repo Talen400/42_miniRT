@@ -12,9 +12,9 @@
 
 #include "miniRt.h"
 
-t_scene scene_init(void)
+t_scene	scene_init(void)
 {
-	t_scene scene;
+	t_scene	scene;
 
 	scene.camera = (t_camera){};
 	scene.ambient = (t_ambient){};
@@ -25,3 +25,27 @@ t_scene scene_init(void)
 	return (scene);
 }
 
+void	destroy_scene(t_scene *scene)
+{
+	t_light		*current_light;
+	t_object	*current_obj;
+	t_light		*next_light;
+	t_object	*next_obj;
+
+	if (!scene)
+		return ;
+	current_light = scene->lights;
+	while (current_light)
+	{
+		next_light = current_light->next;
+		free(current_light);
+		current_light = next_light;
+	}
+	current_obj = scene->objects;
+	while (current_obj)
+	{
+		next_obj = current_obj->next;
+		free(current_obj);
+		current_obj = next_obj;
+	}
+}

@@ -13,7 +13,6 @@
 #include "miniRt.h"
 #include "parser.h"
 
-
 t_object	*create_sphere_obj(t_sphere sphere)
 {
 	t_object	*obj;
@@ -55,9 +54,9 @@ t_object	*create_cylinder_obj(t_cylinder cylinder)
 
 void	add_object_to_scene(t_scene *scene, t_object *obj)
 {
-	t_object    *current;
+	t_object	*current;
 
-    if (!scene || !obj)
+	if (!scene || !obj)
 		return ;
 	if (!scene->objects)
 	{

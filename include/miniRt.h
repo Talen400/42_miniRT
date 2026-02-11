@@ -612,21 +612,14 @@ t_ray		ray_create(t_point3 origin, t_vec3 direction);
 
 /* ---------- Rendering (render.c) ---------- */
 void		render_scene(t_minirt *rt);
-bool	hit_scene(t_ray *r, t_object *objects, t_hit_record *rec);
-bool	hit_scene_shadow(t_ray *r, t_object *objects, t_hit_record *rec);
-/* ---------- Interseções (intersect_*.c) ---------- */
-bool		hit_sphere(t_ray ray, t_sphere sphere, double t_min,
-				double t_max, t_hit_record *rec);
-bool		hit_plane(t_ray ray, t_plane plane, double t_min,
-				double t_max, t_hit_record *rec);
-bool		hit_cylinder(t_ray ray, t_cylinder cylinder, double t_min,
-				double t_max, t_hit_record *rec);
-
 /* ---------- Iluminação (lighting.c) ---------- */
 t_color		calculate_lighting(t_scene *scene, t_hit_record *rec);
 
 /* ---------- Utils (utils.c) ---------- */
 void		ft_free_split(char **split);
 void		error_exit(const char *message);
-
+// Eventos
+void		ft_on_close(void *param);
+void		ft_on_keypress(mlx_key_data_t keydata, void *param);
+void		ft_on_resize(int32_t width, int32_t height, void *param);
 #endif

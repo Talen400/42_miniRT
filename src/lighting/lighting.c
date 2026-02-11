@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "miniRt.h"
+#include "intersect.h"
 
 static t_color	calculate_light_contribution(t_light *current_light,
 				t_hit_record *rec, double diffuse)
@@ -38,7 +39,7 @@ static bool	in_shadow(t_scene *scene, t_vec3 to_light,
 	shadow_ray.origin = vec3_add(rec->point,
 			vec3_multiply(rec->normal, EPSILON));
 	shadow_ray.direction = light_dir;
-	if (hit_scene_shadow(&shadow_ray, scene->objects, &shadow_rec))
+	if (hit_scene(&shadow_ray, scene->objects, &shadow_rec, 0.1))
 	{
 		if (shadow_rec.t < light_distance)
 			return (true);

@@ -95,6 +95,13 @@ int	init_mlx(t_minirt *minirt)
 	return (0);
 }
 
+static void	helper_events(t_minirt *minirt)
+{
+	mlx_key_hook(minirt->mlx.mlx_ptr, ft_on_keypress, minirt);
+	mlx_close_hook(minirt->mlx.mlx_ptr, ft_on_close, minirt);
+	mlx_resize_hook(minirt->mlx.mlx_ptr, ft_on_resize, minirt);
+}
+
 int	main(int argc, char **argv)
 {
 	t_minirt	minirt;
@@ -118,7 +125,9 @@ int	main(int argc, char **argv)
 	draw(&minirt);
 	if (mlx_image_to_window(minirt.mlx.mlx_ptr,	minirt.mlx.img_ptr, 0, 0) == -1)
 		return (ft_errorimg(minirt.mlx.mlx_ptr, minirt.mlx.img_ptr));
+	helper_events(&minirt);
 	mlx_loop(minirt.mlx.mlx_ptr);
+	destroy_scene(&minirt.scene);
 	mlx_terminate(minirt.mlx.mlx_ptr);
 	return (0);
 }

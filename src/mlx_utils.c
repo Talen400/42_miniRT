@@ -12,18 +12,21 @@
 
 #include "../include/mlx_rt.h"
 
-static inline void	put(uint8_t *pixels, int x, int y,
-		uint32_t color)
+void	put(t_minirt *minirt, int x, int y, uint32_t color)
 {
 	int	index;
+	int	width;
+	int	height;
 
-	if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
+	width = minirt->scene.width;
+	height = minirt->scene.height;
+	if (x >= 0 && x < width && y >= 0 && y < height)
 	{
-		index = (y * WIDTH + x) * 4;
-		pixels[index + 0] = (color >> 24) & 0xFF;
-		pixels[index + 1] = (color >> 16) & 0xFF;
-		pixels[index + 2] = (color >> 8) & 0xFF;
-		pixels[index + 3] = color & 0xFF;
+		index = (y * width + x) * 4;
+		minirt->mlx.pixels[index + 0] = (color >> 24) & 0xFF;
+		minirt->mlx.pixels[index + 1] = (color >> 16) & 0xFF;
+		minirt->mlx.pixels[index + 2] = (color >> 8) & 0xFF;
+		minirt->mlx.pixels[index + 3] = color & 0xFF;
 	}
 }
 
@@ -43,18 +46,18 @@ int	ft_errorimg(mlx_t *mlx, mlx_image_t *img)
 	return (1);
 }
 
-void	ft_clearimg(uint8_t *pixels)
+void	ft_clearimg(t_minirt *minirt)
 {
 	int	x;
 	int	y;
 
 	y = 0;
-	while (y < HEIGHT)
+	while (y < minirt->scene.height)
 	{
 		x = 0;
-		while (x < WIDTH)
+		while (x < minirt->scene.width)
 		{
-			put(pixels, x, y, 0x000000FF);
+			put(minirt, x, y, 0x000000FF);
 			x++;
 		}
 		y++;

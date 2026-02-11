@@ -14,7 +14,7 @@
 #include "parser.h"
 #include <math.h>
 
-void	calculate_viewport(t_camera *camera)
+void	calculate_viewport(t_camera *camera, int width, int height)
 {
 	double	theta;
 	double	h;
@@ -25,7 +25,7 @@ void	calculate_viewport(t_camera *camera)
 	h = tan(theta / 2.0);
 	camera->viewport_height = 2.0 * h;
 	camera->viewport_width = camera->viewport_height
-		* (WIDTH / (double)HEIGHT);
+		* (width / (double)height);
 	horizontal = vec3_multiply(camera->right, camera->viewport_width);
 	vertical = vec3_multiply(camera->up, camera->viewport_height);
 	vertical.y *= -1;

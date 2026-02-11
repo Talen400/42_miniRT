@@ -255,6 +255,7 @@ bool		parse_plane(t_parse_context *ctx, t_scene *scene, const char *line);
 bool		parse_cylinder(t_parse_context *ctx, t_scene *scene, const char *line);
 bool		parse_vector(const char *str, t_vec3 *vec);
 bool		parse_color(const char *str, t_color *color);
+void		calculate_viewport(t_camera *camera, int width, int height);
 bool		is_valid_identifier(const char *str);
 const char	*skip_whitespace(const char *str);
 bool		is_empty_line(const char *line);

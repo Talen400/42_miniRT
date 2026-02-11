@@ -77,7 +77,7 @@ static void	calculate_camera_basis(t_camera *camera)
 	camera->up = vec3_normalize(up);
 }
 
-static t_camera	*create_camera_data(t_camera_data *data)
+static t_camera	*create_camera_data(t_camera_data *data, int width, int height)
 {
 	t_camera	*camera;
 
@@ -88,7 +88,7 @@ static t_camera	*create_camera_data(t_camera_data *data)
 	camera->forward = data->orientation;
 	camera->fov = data->fov;
 	calculate_camera_basis(camera);
-	calculate_viewport(camera);
+	calculate_viewport(camera, width, height);
 	return (camera);
 }
 
@@ -103,7 +103,7 @@ bool	parse_camera(t_parse_context *ctx, t_scene *scene, const char *line)
 		return (false);
 	if (!validate_camera(tokens, ctx, &data))
 		return (false);
-	camera = create_camera_data(&data);
+	camera = create_camera_data(&data, scene->width, scene->height);
 	if (!camera)
 	{
 		ft_error_and_free(ctx, tokens, "Camera: memory allocation failed");

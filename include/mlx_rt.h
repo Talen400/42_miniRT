@@ -16,11 +16,12 @@
 #include "miniRt.h"
 
 // src/draw/draw.c
-int	draw(t_minirt *minirt);
+int		draw(t_minirt *minirt);
 
 // src/mlx_utils.c
-int	ft_errorinit(mlx_t *mlx);
-int	ft_errorimg(mlx_t *mlx, mlx_image_t *img);
-void	ft_clearimg(uint8_t *pixels);
+void	put(t_minirt *minirt, int x, int y, uint32_t color);
+int		ft_errorinit(mlx_t *mlx);
+int		ft_errorimg(mlx_t *mlx, mlx_image_t *img);
+void	ft_clearimg(t_minirt *minirt);
 
 #endif
