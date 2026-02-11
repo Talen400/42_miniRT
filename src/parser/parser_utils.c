@@ -12,14 +12,14 @@
 
 #include "parser.h"
 
-bool ft_isempty_or_comment(const char *line)
+bool	ft_isempty_or_comment(const char *line)
 {
 	while (*line && ft_isspace(*line))
 		line++;
 	return (!line[0] || line[0] == '\n' || line[0] == '#');
 }
 
-char *extract_identifier(const char *line)
+char	*extract_identifier(const char *line)
 {
 	char	*id;
 	int		len;
@@ -92,4 +92,3 @@ bool	parse_color(const char *str, t_color *color)
 	ft_free_split(components);
 	return (true);
 }
-

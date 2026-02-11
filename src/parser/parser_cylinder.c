@@ -29,10 +29,10 @@ static bool	validate_and_normalize_axis(t_vec3 *axis, t_parse_context *ctx,
 	return (true);
 }
 
-static bool helper_validate_cylinder(char **tokens, t_parse_context *ctx,
+static bool	helper_validate_cylinder(char **tokens, t_parse_context *ctx,
 								t_cylinder_data *data)
 {
-    if (!validate_and_normalize_axis(&data->axis, ctx, tokens))
+	if (!validate_and_normalize_axis(&data->axis, ctx, tokens))
 		return (false);
 	data->diameter = ft_atod(tokens[3]);
 	if (data->diameter <= 0.0)
@@ -51,15 +51,16 @@ static bool helper_validate_cylinder(char **tokens, t_parse_context *ctx,
 		ft_error_and_free(ctx, tokens, "Cylinder: invalid color format");
 		return (false);
 	}
-    return (true);
+	return (true);
 }
+
 static bool	validate_cylinder(char **tokens, t_parse_context *ctx,
 								t_cylinder_data *data)
 {
 	if (ft_array_size((void **)tokens) != 6)
 	{
 		ft_error_and_free(ctx, tokens,
-			"Cylinder: expected format 'cy <x,y,z> <nx,ny,nz> <d> <h> <R,G,B>'");
+			"Cylinder: format 'cy <x,y,z> <nx,ny,nz> <d> <h> <R,G,B>'");
 		return (false);
 	}
 	if (!parse_vector(tokens[1], &data->center))
@@ -73,7 +74,7 @@ static bool	validate_cylinder(char **tokens, t_parse_context *ctx,
 		return (false);
 	}
 	if (!helper_validate_cylinder(tokens, ctx, data))
-        return (false);
+		return (false);
 	return (true);
 }
 

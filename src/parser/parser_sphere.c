@@ -24,7 +24,7 @@ static bool	validate_sphere(char **tokens, t_parse_context *ctx,
 	}
 	if (!parse_vector(tokens[1], &data->center))
 	{
-		ft_error_and_free(ctx, tokens," sphere: invalid position format");
+		ft_error_and_free(ctx, tokens, " sphere: invalid position format");
 		return (false);
 	}
 	data->diameter = ft_atod(tokens[2]);

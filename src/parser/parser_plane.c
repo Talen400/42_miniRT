@@ -19,7 +19,6 @@ static bool	validate_normal_vector(t_vec3 *normal, t_parse_context *ctx,
 	double	length;
 
 	length = vec3_length(*normal);
-	
 	if (length < 1e-6)
 	{
 		ft_error_and_free(ctx, tokens,

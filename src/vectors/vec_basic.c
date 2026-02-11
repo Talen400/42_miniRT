@@ -12,7 +12,7 @@
 
 #include "miniRt.h"
 
-t_vec3		vec3_create(double x, double y, double z)
+t_vec3	vec3_create(double x, double y, double z)
 {
 	t_vec3	v;
 
@@ -22,7 +22,7 @@ t_vec3		vec3_create(double x, double y, double z)
 	return (v);
 }
 
-t_vec3		vec3_add(t_vec3 a, t_vec3 b)
+t_vec3	vec3_add(t_vec3 a, t_vec3 b)
 {
 	t_vec3	result;
 
@@ -32,8 +32,7 @@ t_vec3		vec3_add(t_vec3 a, t_vec3 b)
 	return (result);
 }
 
-
-t_vec3		vec3_subtract(t_vec3 a, t_vec3 b)
+t_vec3	vec3_subtract(t_vec3 a, t_vec3 b)
 {
 	t_vec3	result;
 
@@ -42,7 +41,8 @@ t_vec3		vec3_subtract(t_vec3 a, t_vec3 b)
 	result.z = a.z - b.z;
 	return (result);
 }
-t_vec3		vec3_multiply(t_vec3 v, double scalar)
+
+t_vec3	vec3_multiply(t_vec3 v, double scalar)
 {
 	t_vec3	result;
 
@@ -52,15 +52,14 @@ t_vec3		vec3_multiply(t_vec3 v, double scalar)
 	return (result);
 }
 
-t_vec3		vec3_divide(t_vec3 v, double scalar)
+t_vec3	vec3_divide(t_vec3 v, double scalar)
 {
 	t_vec3	result;
 
 	if (scalar == 0)
-		 scalar = 0.0001;
+		scalar = 0.0001;
 	result.x = v.x / scalar;
 	result.y = v.y / scalar;
 	result.z = v.z / scalar;
 	return (result);
 }
-

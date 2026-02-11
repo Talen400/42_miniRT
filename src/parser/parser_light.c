@@ -39,7 +39,7 @@ static bool	validate_light(char **tokens, t_parse_context *ctx,
 	}
 	if (!parse_vector(tokens[1], &data->position))
 	{
-		ft_error_and_free(ctx, tokens," light: invalid position format");
+		ft_error_and_free(ctx, tokens, "light: invalid position format");
 		return (false);
 	}
 	data->brightness = ft_atod(tokens[2]);

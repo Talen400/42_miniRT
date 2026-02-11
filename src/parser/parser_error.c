@@ -13,11 +13,10 @@
 #include "miniRt.h"
 #include "parser.h"
 
-
-void	print_parse_error(const char *filename, int line_num, 
+void	print_parse_error(const char *filename, int line_num,
 			const char *message)
 {
-	char *line_str;
+	char	*line_str;
 
 	write(2, "Error\n", 6);
 	write(2, "File '", 7);
@@ -31,7 +30,8 @@ void	print_parse_error(const char *filename, int line_num,
 	write(2, "\n", 1);
 }
 
-void	ft_error_and_free(t_parse_context *ctx, char **tokens, const char *message)
+void	ft_error_and_free(t_parse_context *ctx,
+		char **tokens, const char *message)
 {
 	print_parse_error(ctx->filename, ctx->current_line, message);
 	ft_free_split(tokens);

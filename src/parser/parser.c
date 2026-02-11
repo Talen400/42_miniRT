@@ -12,21 +12,20 @@
 
 #include "parser.h"
 
-const t_element_parser g_element_parsers[] = {
-    {"A", parse_ambient},
-    {"C", parse_camera},
-    {"L", parse_light},
-    {"sp", parse_sphere},
-    {"pl", parse_plane},
-    {"cy", parse_cylinder},
-    {NULL, NULL}
+const t_element_parser	g_element_parsers[] = {
+{"A", parse_ambient},
+{"C", parse_camera},
+{"L", parse_light},
+{"sp", parse_sphere},
+{"pl", parse_plane},
+{"cy", parse_cylinder},
+{NULL, NULL}
 };
 
-
-static t_parse_context ft_init_parse_context(const char *filename)
+static t_parse_context	ft_init_parse_context(const char *filename)
 {
-	t_parse_context context;
-	
+	t_parse_context	context;
+
 	context.camera_count = 0;
 	context.ambient_count = 0;
 	context.light_count = 0;
@@ -35,20 +34,19 @@ static t_parse_context ft_init_parse_context(const char *filename)
 	context.error_occurred = false;
 	return (context);
 }
-static bool validate_scene_counts(t_parse_context *ctx)
+
+static bool	validate_scene_counts(t_parse_context *ctx)
 {
 	if (ctx->camera_count != 1)
 	{
 		print_parse_error(ctx->filename, ctx->current_line,
-			(ctx->camera_count == 0) ? "No camera defined"
-			: "Multiple cameras defined");
+			"Expected exactly 1 camera");
 		return (false);
 	}
 	if (ctx->ambient_count != 1)
 	{
 		print_parse_error(ctx->filename, ctx->current_line,
-			(ctx->ambient_count == 0) ? "No ambient light defined"
-			: "Multiple ambient lights defined");
+			"Expected exactly 1 ambient light");
 		return (false);
 	}
 	if (ctx->light_count < 1)
@@ -62,8 +60,8 @@ static bool validate_scene_counts(t_parse_context *ctx)
 
 bool	process_line(t_parse_context *context, t_scene *scene, const char *line)
 {
-	int i;
-	char *identifier;
+	int		i;
+	char	*identifier;
 
 	if (ft_isempty_or_comment(line))
 		return (true);
@@ -88,11 +86,12 @@ bool	process_line(t_parse_context *context, t_scene *scene, const char *line)
 	free(identifier);
 	return (false);
 }
+
 bool	parse_scene(const char *filename, t_scene *scene)
 {
-	char *file_content;
-	t_parse_context parse_context;
-	int	 fd;
+	char			*file_content;
+	t_parse_context	parse_context;
+	int				fd;
 
 	parse_context = ft_init_parse_context(filename);
 	fd = open(filename, O_RDONLY);

@@ -13,7 +13,7 @@
 #include "miniRt.h"
 #include "parser.h"
 
-bool validate_ratio(double ratio)
+bool	validate_ratio(double ratio)
 {
 	return (ratio >= 0.0 && ratio <= 1.0);
 }
@@ -45,9 +45,9 @@ static bool	validate_ambient(char **tokens, t_parse_context *ctx,
 
 bool	parse_ambient(t_parse_context *ctx, t_scene *scene, const char *line)
 {
-	char		**tokens;
-	double		intensity;
-	t_color		color;
+	char	**tokens;
+	double	intensity;
+	t_color	color;
 
 	tokens = ft_split(line, ' ');
 	if (!tokens)
