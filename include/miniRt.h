@@ -351,6 +351,13 @@ typedef struct s_cylinder
 	t_color		color;        // Cor da superfície (RGB)
 }	t_cylinder;
 
+typedef enum e_cylinder_surface
+{
+	CYL_BODY,
+	CYL_BOTTOM_CAP,
+	CYL_TOP_CAP
+}	t_cylinder_surface;
+
 /*
 ** ============================================================================
 ** ENUMERAÇÃO: t_object_type
@@ -458,13 +465,23 @@ typedef struct s_object
 
 typedef struct s_hit_record
 {
-	t_point3	point;        // Ponto de interseção no espaço 3D
-	t_vec3		normal;       // Normal da superfície (normalizado)
-	double		t;            // Distância ao longo do raio
-	t_color		color;        // Cor do objeto neste ponto
-	bool		front_face;   // True se raio veio de fora, false se de dentro
-	t_object	*object;      // Ponteiro para o objeto atingido
+	t_point3			point;
+	t_vec3				normal;
+	double				t;
+	t_color				color;
+	bool				front_face;
+	t_object			*object;
+	t_cylinder_surface	cylinder_surface;
 }	t_hit_record;
+
+typedef struct s_quadratic_equation
+{
+	double	a;
+	double	b;
+	double	c;
+	double	discriminant;
+	double	t;
+} t_quadratic_equation;
 
 /* ========================================================================== */
 /*                        ESTRUTURA DA CENA COMPLETA                          */
@@ -558,67 +575,17 @@ typedef struct s_mlx_data
 	int			line_length;      // Bytes por linha (com padding possível)
 	int			endian;           // Ordem dos bytes (0=little, 1=big endian)
 }	t_mlx_data;
-
-/*
-** ============================================================================
-** ESTRUTURA: t_minirt (Principal)
-** ============================================================================
-**
-** Esta é a estrutura "Deus" do programa - ela conecta todas as outras
-** estruturas e representa o estado completo da aplicação.
-**
-** Contém dois componentes principais:
-**
-** 1. scene: Todos os dados da cena 3D (câmera, luzes, objetos)
-**    Estes dados são lidos do arquivo .rt durante o parsing
-*
-** 2. mlx: Todos os dados da interface gráfica (janela, imagem, eventos)
-**    Estes dados são inicializados quando configuramos a MLX
-**
-** Tipicamente, um ponteiro para esta estrutura é passado para todas as
-** funções importantes do programa, permitindo acesso a qualquer dado
-** necessário. É comum ver:
-**
-**     void some_function(t_minirt *rt)
-**     {
-**         // Pode acessar rt->scene para dados da cena
-**         // Pode acessar rt->mlx para dados gráficos
-**     }
-**
-** Esta abordagem centraliza todos os dados do programa e facilita a
-** passagem de informações entre funções sem precisar de muitos parâmetros
-** ou variáveis globais.
-** ============================================================================
-*/
-
 typedef struct s_minirt
 {
-	t_scene		scene;        // Dados da cena 3D completa
-	t_mlx_data	mlx;          // Dados da interface gráfica
+	t_scene		scene;
+	t_mlx_data	mlx;
 }	t_minirt;
 
-/* ========================================================================== */
-/*                      PROTÓTIPOS DE FUNÇÕES (Exemplos)                      */
-/* ========================================================================== */
-
-/*
-** Aqui virão os protótipos das funções que você implementará.
-** Por enquanto, apenas alguns exemplos para ilustrar a organização:
-*/
-
-/* ---------- Operações com Raios (ray_ops.c) ---------- */
 t_ray		ray_create(t_point3 origin, t_vec3 direction);
-//t_vec3	ray_at(t_ray ray, double t);
-
-/* ---------- Rendering (render.c) ---------- */
 void		render_scene(t_minirt *rt);
-/* ---------- Iluminação (lighting.c) ---------- */
 t_color		calculate_lighting(t_scene *scene, t_hit_record *rec);
-
-/* ---------- Utils (utils.c) ---------- */
 void		ft_free_split(char **split);
 void		error_exit(const char *message);
-// Eventos
 void		ft_on_close(void *param);
 void		ft_on_keypress(mlx_key_data_t keydata, void *param);
 void		ft_on_resize(int32_t width, int32_t height, void *param);
