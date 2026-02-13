@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../include/color.h"
+#include "miniRt.h"
 
 t_color	init_color(uint32_t color)
 {
@@ -25,5 +26,16 @@ t_color	init_color(uint32_t color)
 
 uint32_t	color_to_int32(t_color color)
 {
-	return ((color.r << 24) | (color.g << 16) | (color.b << 8) | color.a);
+	uint8_t	r;
+	uint8_t	g;
+	uint8_t	b;
+	uint8_t	a;
+
+	// Clamp + cast para uint8_t
+	r = (uint8_t)fmin(255.0, fmax(0.0, color.r));
+	g = (uint8_t)fmin(255.0, fmax(0.0, color.g));
+	b = (uint8_t)fmin(255.0, fmax(0.0, color.b));
+	a = 255;
+	
+	return ((r << 24) | (g << 16) | (b << 8) | a);
 }

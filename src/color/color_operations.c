@@ -17,11 +17,11 @@ t_color	color_add(t_color a, t_color b)
 {
 	t_color	result;
 
-	result.r = fmin(255, (int)a.r + b.r);
-	result.g = fmin(255, (int)a.g + b.g);
-	result.b = fmin(255, (int)a.b + b.b);
+	result.r = a.r + b.r;
+	result.g = a.g + b.g;
+	result.b = a.b + b.b;
 	result.a = 255;
-	return (color_clamp(result));
+	return (result);
 }
 
 t_color	color_subtract(t_color a, t_color b)
@@ -39,9 +39,9 @@ t_color	color_scale(t_color c, double t)
 {
 	t_color	result;
 
-	result.r = (uint8_t)(c.r * t);
-	result.g = (uint8_t)(c.g * t);
-	result.b = (uint8_t)(c.b * t);
+	result.r = c.r * t;
+	result.g = c.g * t;
+	result.b = c.b * t;
 	result.a = c.a;
 	return (result);
 }
