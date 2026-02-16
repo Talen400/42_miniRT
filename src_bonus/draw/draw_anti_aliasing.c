@@ -121,10 +121,3 @@ static void	drawing(t_minirt *minirt)
 		y++;
 	}
 }
-
-int	draw(t_minirt *minirt)
-{
-	ft_clearimg(minirt);
-	drawing(minirt);
-	return (0);
-}

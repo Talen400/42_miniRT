@@ -1,0 +1,21 @@
+A 0.15 255,255,255
+
+C 0,5,-18 0,-0.1,1 60
+
+L -10,20,-5 0.9 255,255,255
+L 15,15,0 0.5 200,200,255
+
+# Esfera brilhante (ks alto, shininess alto = highlight pequeno e intenso)
+sp -6,0,12 5.0 255,50,50 0.9 128
+
+# Esfera fosca (ks baixo = quase sem brilho)
+sp 6,0,12 5.0 50,50,255 0.1 8
+
+# Esfera com defaults (sem ks/shininess = usa KS_DEFAULT e SHININESS_DEFAULT)
+sp 0,7,16 3.0 50,255,50
+
+# Chao reflexivo
+pl 0,-3,0 0,1,0 180,180,180 0.4 32
+
+# Cilindro brilhante
+cy 0,-3,8 0,1,0 2.0 6.0 255,200,0 0.7 64
