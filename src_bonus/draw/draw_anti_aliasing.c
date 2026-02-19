@@ -46,7 +46,8 @@ static t_color	ray_color(t_ray *r, t_scene *scene)
 
 	if (hit_scene(r, scene->objects, &rec, T_MIN))
 	{
-		norm_color = calculate_lighting(scene, &rec, r);
+		norm_color = calculate_lighting(scene, &rec, r,
+			REFLECTION_DEPTH);
 		return (norm_color);
 	}
 	return (sky_color(r));

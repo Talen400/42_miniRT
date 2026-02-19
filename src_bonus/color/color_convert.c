@@ -31,7 +31,6 @@ uint32_t	color_to_int32(t_color color)
 	uint8_t	b;
 	uint8_t	a;
 
-	// Clamp + cast para uint8_t
 	r = (uint8_t)fmin(255.0, fmax(0.0, color.r));
 	g = (uint8_t)fmin(255.0, fmax(0.0, color.g));
 	b = (uint8_t)fmin(255.0, fmax(0.0, color.b));

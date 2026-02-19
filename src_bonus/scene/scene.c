@@ -49,3 +49,20 @@ void	destroy_scene(t_scene *scene)
 		current_obj = next_obj;
 	}
 }
+
+void	add_object_to_scene(t_scene *scene, t_object *obj)
+{
+	t_object	*current;
+
+	if (!scene || !obj)
+		return ;
+	if (!scene->objects)
+	{
+		scene->objects = obj;
+		return ;
+	}
+	current = scene->objects;
+	while (current->next)
+		current = current->next;
+	current->next = obj;
+}

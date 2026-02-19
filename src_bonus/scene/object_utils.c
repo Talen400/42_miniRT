@@ -60,19 +60,13 @@ t_object	*create_cylinder_obj(t_cylinder cylinder, char **tokens)
 	return (obj);
 }
 
-void	add_object_to_scene(t_scene *scene, t_object *obj)
-{
-	t_object	*current;
 
-	if (!scene || !obj)
-		return ;
-	if (!scene->objects)
-	{
-		scene->objects = obj;
-		return ;
-	}
-	current = scene->objects;
-	while (current->next)
-		current = current->next;
-	current->next = obj;
+t_object	*create_cone_obj(t_cone cone, char **tokens)
+{
+	t_object	*obj;
+
+	obj = create_object(CONE, tokens, CN_NARGS);
+	if (obj)
+		obj->shape.cone = cone;
+	return (obj);
 }

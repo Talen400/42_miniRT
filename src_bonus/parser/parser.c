@@ -19,6 +19,7 @@ const t_element_parser	g_element_parsers[] = {
 {"sp", parse_sphere},
 {"pl", parse_plane},
 {"cy", parse_cylinder},
+{"cn", parse_cone},
 {NULL, NULL}
 };
 

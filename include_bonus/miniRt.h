@@ -36,7 +36,11 @@
 # define CY_NARGS  6
 # define PL_NARGS 4
 # define SP_NARGS 4
-# define KS_DEFAULT 0.5
+# define CN_NARGS 7
+# define B_NARGS 5
+# define KS_DEFAULT 0.2
+# define KD_DEFAULT 0.7
+# define KA_DEFAULT 0.2
 # define SHININESS_DEFAULT 30
 # define REFLECTIVITY_DEFAULT 0
 # define REFLECTION_DEPTH 5
@@ -145,6 +149,16 @@ typedef struct s_cylinder
 	t_color		color;        // Cor da superfície (RGB)
 }	t_cylinder;
 
+typedef struct s_cone
+{
+	t_point3	apex;       // Ponta do cone (vértice)
+	t_vec3		axis;       // Direção normalizada (da ponta para a base)
+	double		diameter;   // Diâmetro da base
+	double		radius;     // Raio (diameter / 2) — pré-calculado
+	double		height;     // Altura do cone
+	double		half_angle; // tan(ângulo de abertura/2) — pré-calculado
+	t_color		color;      // Cor RGB
+}	t_cone;
 typedef enum e_cylinder_surface
 {
 	CYL_BODY,
@@ -157,22 +171,26 @@ typedef enum e_object_type
 {
 	SPHERE,
 	PLANE,
-	CYLINDER
+	CYLINDER,
+	CONE
 }	t_object_type;
 
 typedef struct s_object
 {
-	t_object_type	type;         // Que tipo de objeto é este?
-	union u_shape                 // Os dados específicos (apenas um válido)
+	t_object_type	type;
+	union u_shape
 	{
-		t_sphere	sphere;       // Dados se for esfera
-		t_plane		plane;        // Dados se for plano
-		t_cylinder	cylinder;     // Dados se for cilindro
+		t_sphere	sphere;
+		t_plane		plane;
+		t_cylinder	cylinder;
+		t_cone		cone;
 	}				shape;
-	double          ks;        // intensidade especular (ex: 0.0 a 1.0)
-    double          shininess; // expoente (ex: 32, 64, 128...)
+	double			ks;
+	double			kd;
+	double			ka;
+	double			shininess;
 	double			reflectivity;
-	struct s_object	*next;        // Próximo objeto na lista (NULL se último)
+	struct s_object	*next;
 }	t_object;
 
 typedef struct s_hit_record

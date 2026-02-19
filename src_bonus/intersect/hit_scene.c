@@ -21,6 +21,8 @@ static double	hit_object(t_ray *r, t_object *obj)
 		return (hit_plane(r, obj));
 	if (obj->type == CYLINDER)
 		return (hit_cylinder(r, obj));
+	if (obj->type == CONE)
+		return (hit_cone(r, obj));
 	return (-1.0);
 }
 

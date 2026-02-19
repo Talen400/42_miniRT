@@ -13,7 +13,7 @@
 #include "miniRt.h"
 #include "parser.h"
 
-static bool	validate_and_normalize_axis(t_vec3 *axis, t_parse_context *ctx,
+bool	validate_and_normalize_axis(t_vec3 *axis, t_parse_context *ctx,
 										char **tokens)
 {
 	double	length;
@@ -22,7 +22,7 @@ static bool	validate_and_normalize_axis(t_vec3 *axis, t_parse_context *ctx,
 	if (length < 1e-6)
 	{
 		ft_error_and_free(ctx, tokens,
-			"Cylinder: axis vector cannot be zero");
+			"Axis vector cannot be zero");
 		return (false);
 	}
 	*axis = vec3_normalize(*axis);
@@ -57,8 +57,8 @@ static bool	helper_validate_cylinder(char **tokens, t_parse_context *ctx,
 static bool	validate_cylinder(char **tokens, t_parse_context *ctx,
 								t_cylinder_data *data)
 {
-	if (ft_array_size((void **)tokens) != 6 &&
-		ft_array_size((void **)tokens) != 9)
+	if (ft_array_size((void **)tokens) != CY_NARGS &&
+		ft_array_size((void **)tokens) != CY_NARGS + B_NARGS)
 	{
 		ft_error_and_free(ctx, tokens,
 			"Cylinder: format 'cy <x,y,z> <nx,ny,nz> <d> <h> <R,G,B>'");

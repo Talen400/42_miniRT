@@ -83,33 +83,33 @@ static t_color	apply_light(t_scene *scene, t_hit_record *rec,
 	if (in_shadow(scene, to_light, rec, light_dir))
 		return ((t_color){0, 0, 0, 0});
 	diffuse = fmax(0.0, vec3_dot(rec->normal, light_dir));
-	diffuse *= light->brightness;
+	diffuse *= light->brightness * rec->object->kd;
 	result = calculate_light_contribution(light, rec, diffuse);
 	result = color_add(result,
 			calculate_specular(scene, rec, light_dir, light));
 	return (result);
 }
 
-static t_color calculate_reflection(t_scene *scene, t_hit_record *rec,
-                t_ray *ray, int depth)
+static t_color	calculate_reflection(t_scene *scene, t_hit_record *rec,
+			t_ray *ray, int depth)
 {
-    t_ray          reflect_ray;
-    t_hit_record   reflect_rec;
-    t_vec3         reflect_dir;
+	t_ray			reflect_ray;
+	t_hit_record	reflect_rec;
+	t_vec3			reflect_dir;
 
-    if (rec->object->reflectivity <= 0.0 || depth <= 0)
-        return ((t_color){0, 0, 0, 255});
-    reflect_dir = vec3_subtract(
-        vec3_multiply(rec->normal,
-            2.0 * vec3_dot(rec->normal,
-                vec3_negate(ray->direction))),
-        vec3_negate(ray->direction));
-    reflect_ray.origin = vec3_add(rec->point,
-        vec3_multiply(rec->normal, 0.01));
-    reflect_ray.direction = vec3_normalize(reflect_dir);
-    if (!hit_scene(&reflect_ray, scene->objects, &reflect_rec, 0.01))
-        return (sky_color(&reflect_ray));
-    return (calculate_lighting(scene, &reflect_rec, &reflect_ray, depth - 1));
+	if (rec->object->reflectivity <= 0.0 || depth <= 0)
+		return ((t_color){0, 0, 0, 255});
+	reflect_dir = vec3_subtract(
+		vec3_multiply(rec->normal,
+			2.0 * vec3_dot(rec->normal,
+				vec3_negate(ray->direction))),
+		vec3_negate(ray->direction));
+	reflect_ray.origin = vec3_add(rec->point,
+		vec3_multiply(rec->normal, 0.01));
+	reflect_ray.direction = vec3_normalize(reflect_dir);
+	if (!hit_scene(&reflect_ray, scene->objects, &reflect_rec, 0.01))
+		return (sky_color(&reflect_ray));
+	return (calculate_lighting(scene, &reflect_rec, &reflect_ray, depth - 1));
 }
 
 t_color	calculate_lighting(t_scene *scene, t_hit_record *rec, t_ray *ray,
@@ -120,7 +120,7 @@ t_color	calculate_lighting(t_scene *scene, t_hit_record *rec, t_ray *ray,
 	t_color	reflected;
 	t_light	*light;
 
-	ambient = color_scale(rec->color, scene->ambient.intensity);
+	ambient = color_scale(rec->color, scene->ambient.intensity * rec->object->ka);
 	direct = (t_color){0, 0, 0, 255};
 	light = scene->lights;
 	while (light)

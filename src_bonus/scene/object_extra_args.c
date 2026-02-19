@@ -13,55 +13,66 @@
 #include "miniRt.h"
 #include "parser.h"
 
-bool	set_specular(t_object *obj, char **tokens, int base_count)
+static bool	validate_phong_params(t_object *obj)
 {
-	double	ks;
-	double	shininess;
-    int     size;
-
-    size = ft_array_size((void **)tokens);
-    if (size == base_count + 3)
-    {
-        ks = ft_atod(tokens[base_count]);
-		if (ks < 0.0 || ks > 1)
-			return (false);
-		obj->ks = ks;
-        shininess = ft_atod(tokens[base_count + 1]);
-		if (shininess < 1 || shininess > 500)
-			return (false);
-		obj->shininess = shininess;
-    }
-    else
-    {
-        obj->ks = KS_DEFAULT;
-        obj->shininess = SHININESS_DEFAULT;
-    }
+	if (obj->ks < 0.0 || obj->ks > 1)
+		return (false);
+	if (obj->ka < 0.0 || obj->ka > 1)
+		return (false);
+	if (obj->kd < 0.0 || obj->kd > 1)
+		return (false);
+	if (obj->shininess < 1 || obj->shininess > 500)
+		return (false);
 	return (true);
 }
 
-bool set_reflectivity(t_object *obj, char **tokens, int base_count)
+static bool	set_phong_params(t_object *obj, char **tokens, int base_count,
+	bool has_extra_args)
 {
-    double  reflectivity;
-    int     size;
-
-    size = ft_array_size((void **)tokens);
-    if (size == base_count + 3)
-    {
-        reflectivity = ft_atod(tokens[base_count + 2]);
-        if (reflectivity < 0 || reflectivity > 1)
-            return (false);
-        obj->reflectivity = reflectivity;
-    }
-    else
-        obj->reflectivity = REFLECTIVITY_DEFAULT;
-    return (true);
+	if (has_extra_args)
+	{
+		obj->ks = ft_atod(tokens[base_count]);
+		obj->kd = ft_atod(tokens[base_count + 1]);
+		obj->ka = ft_atod(tokens[base_count + 2]);
+		obj->shininess = ft_atod(tokens[base_count + 3]);
+		if (!validate_phong_params(obj))
+			return (false);
+	}
+	else
+	{
+		obj->ks = KS_DEFAULT;
+		obj->kd = KD_DEFAULT;
+		obj->ka = KA_DEFAULT;
+		obj->shininess = SHININESS_DEFAULT;
+	}
+	return (true);
 }
 
-bool set_extra_args(t_object *obj, char **tokens, int base_count)
+static bool	set_reflectivity(t_object *obj, char **tokens, int base_count,
+		bool has_extra_args)
 {
-    if(!set_reflectivity(obj, tokens, base_count))
-        return (false);
-    if (!set_specular(obj,tokens,base_count))
-        return (false);
-    return (true);
+	double	reflectivity;
+
+	if (has_extra_args)
+	{
+		reflectivity = ft_atod(tokens[base_count + 4]);
+		if (reflectivity < 0 || reflectivity > 1)
+			return (false);
+		obj->reflectivity = reflectivity;
+	}
+	else
+		obj->reflectivity = REFLECTIVITY_DEFAULT;
+	return (true);
+}
+
+bool	set_extra_args(t_object *obj, char **tokens, int base_count)
+{
+	bool	has_extra_args;
+
+	has_extra_args = (ft_array_size((void **)tokens) == (size_t)base_count + 5);
+	if (!set_reflectivity(obj, tokens, base_count, has_extra_args))
+		return (false);
+	if (!set_phong_params(obj, tokens, base_count, has_extra_args))
+		return (false);
+	return (true);
 }
