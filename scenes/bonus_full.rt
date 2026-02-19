@@ -1,0 +1,27 @@
+# Cena completa - testa tudo: iluminacao, sombra, especular e reflexao
+# Duas luzes para testar acumulacao de contribuicoes
+
+A 0.15 255,255,255
+
+C 0,4,-14 0,-0.2,1 65
+
+L -10,15,-5 0.8 255,255,255
+L 10,8,0 0.5 180,220,255
+
+# Esfera espelhada (alta reflectividade)
+sp -4,0,10 3.0 200,200,200 0.3 128 0.9
+
+# Esfera vermelha brilhante (baixa reflectividade)
+sp 4,0,10 3.0 255,60,60 0.8 64 0.1
+
+# Esfera atras - aparece refletida na esfera espelhada
+sp 0,5,18 2.5 80,200,255 0.4 32 0.0
+
+# Chao reflexivo - principal teste de reflexao
+pl 0,-2,0 0,1,0 160,160,160 0.3 16 0.6
+
+# Parede ao fundo (sem reflexao)
+pl 0,0,30 0,0,-1 100,100,140 0.1 8 0.0
+
+# Cilindro metalico (reflectividade media)
+cy 0,-2,8 0,1,0 1.5 5.0 180,180,200 0.6 96 0.4

@@ -23,7 +23,7 @@ static double	random_double(void)
 	return (rand() / (RAND_MAX + 1.0));
 }
 
-static t_color	sky_color(t_ray *r)
+t_color	sky_color(t_ray *r)
 {
 	t_vec3	unit_dir;
 	double	t;
@@ -46,7 +46,7 @@ static t_color	ray_color(t_ray *r, t_scene *scene)
 
 	if (hit_scene(r, scene->objects, &rec, T_MIN))
 	{
-		norm_color = calculate_lighting(scene, &rec);
+		norm_color = calculate_lighting(scene, &rec, r);
 		return (norm_color);
 	}
 	return (sky_color(r));

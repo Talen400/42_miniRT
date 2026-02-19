@@ -33,7 +33,7 @@ static bool	validate_plane(char **tokens, t_parse_context *ctx,
 							t_plane_data *data)
 {
 	if (ft_array_size((void **)tokens) != 4 &&
-		ft_array_size((void **)tokens) != 6)
+		ft_array_size((void **)tokens) != 7)
 	{
 		ft_error_and_free(ctx, tokens,
 			"Plane: expected format 'pl <x,y,z> <nx,ny,nz> <R,G,B>'");

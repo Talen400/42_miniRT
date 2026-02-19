@@ -20,6 +20,7 @@ static double	calc_sphere(t_vec3 *center, double radius, t_ray *r)
 	double	h;
 	double	c;
 	double	discriminant;
+	double	t;
 
 	oc = vec3_subtract(*center, r->origin);
 	a = vec3_dot(r->direction, r->direction);
@@ -28,8 +29,10 @@ static double	calc_sphere(t_vec3 *center, double radius, t_ray *r)
 	discriminant = h * h - a * c;
 	if (discriminant < 0)
 		return (-1.0);
-	else
-		return ((h - sqrt(discriminant)) / a);
+	t = (h - sqrt(discriminant)) / a;
+	if (t < 0)
+		t = (h + sqrt(discriminant)) / a;
+	return (t);
 }
 
 double	hit_sphere(t_ray *r, t_object *obj)

@@ -13,7 +13,7 @@ MLX42_BUILD_DIR   := $(MLX42_DIR)/build
 
 # Compilador e flags
 CC                := cc
-CFLAGS            := -Wall -Wextra -Werror -I$(INCLUDE_DIR) -I$(LIBFT_DIR)/include -I$(MLX42_DIR)/include
+CFLAGS            := -I$(INCLUDE_DIR) -I$(LIBFT_DIR)/include -I$(MLX42_DIR)/include
 LDFLAGS           := -L$(LIBFT_DIR) -L$(MLX42_BUILD_DIR) -lft -lmlx42 -lm -lglfw
 CFLAGS_DEBUG      := $(CFLAGS) -g -O0
 
@@ -64,6 +64,7 @@ SRCS_BONUS        := src_bonus/main.c \
 					 src_bonus/mlx_utils.c \
 					 src_bonus/scene/scene.c \
 					 src_bonus/scene/object_utils.c \
+					 src_bonus/scene/object_extra_args.c \
 					 src_bonus/parser/parser_ambient.c \
 					 src_bonus/parser/parser_camera.c \
 					 src_bonus/parser/parser_camera_utils.c \

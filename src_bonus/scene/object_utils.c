@@ -13,47 +13,30 @@
 #include "miniRt.h"
 #include "parser.h"
 
-bool	set_specular(t_object *obj, char **tokens, int base_count)
+static t_object	*create_object(t_object_type type, char **tokens, int nargs)
 {
-	double	ks;
-	double	shininess;
- 
-    int size = ft_array_size((void **)tokens);
-    if (size == base_count + 2)
-    {
-        ks = ft_atod(tokens[base_count]);
-		if (ks < 0.0 || ks >= 1)
-			return (false);
-		obj->ks = ks;
-        shininess = ft_atod(tokens[base_count + 1]);
-		if (shininess < 1 || shininess > 500)
-			return (false);
-		obj->shininess = shininess;
-    }
-    else
-    {
-        obj->ks = KS_DEFAULT;
-        obj->shininess = SHININESS_DEFAULT;
-    }
-	return (true);
+	t_object	*obj;
+
+	obj = malloc(sizeof(t_object));
+	if (!obj)
+		return (NULL);
+	obj->type = type;
+	obj->next = NULL;
+	if (!set_extra_args(obj, tokens, nargs))
+	{
+		free(obj);
+		return (NULL);
+	}
+	return (obj);
 }
 
 t_object	*create_sphere_obj(t_sphere sphere, char **tokens)
 {
 	t_object	*obj;
 
-	obj = (t_object *)malloc(sizeof(t_object));
-	if (!obj)
-		return (NULL);
-	obj->type = SPHERE;
-	if(!set_specular(obj, tokens, SP_NARGS))
-	{
-		free(obj);
-		return (NULL);
-	}
-	obj->shape.sphere = sphere;
-	obj->next = NULL;
-	
+	obj = create_object(SPHERE, tokens, SP_NARGS);
+	if (obj)
+		obj->shape.sphere = sphere;
 	return (obj);
 }
 
@@ -61,17 +44,9 @@ t_object	*create_plane_obj(t_plane plane, char **tokens)
 {
 	t_object	*obj;
 
-	obj = (t_object *)malloc(sizeof(t_object));
-	if (!obj)
-		return (NULL);
-	obj->type = PLANE;
-	if (!set_specular(obj, tokens, PL_NARGS))
-	{
-		free(obj);
-		return (NULL);
-	}
-	obj->shape.plane = plane;
-	obj->next = NULL;
+	obj = create_object(PLANE, tokens, PL_NARGS);
+	if (obj)
+		obj->shape.plane = plane;
 	return (obj);
 }
 
@@ -79,17 +54,9 @@ t_object	*create_cylinder_obj(t_cylinder cylinder, char **tokens)
 {
 	t_object	*obj;
 
-	obj = (t_object *)malloc(sizeof(t_object));
-	if (!obj)
-		return (NULL);
-	obj->type = CYLINDER;
-	if (!set_specular(obj, tokens, CY_NARGS))
-	{
-		free(obj);
-		return (NULL);
-	}
-	obj->shape.cylinder = cylinder;
-	obj->next = NULL;
+	obj = create_object(CYLINDER, tokens, CY_NARGS);
+	if (obj)
+		obj->shape.cylinder = cylinder;
 	return (obj);
 }
 

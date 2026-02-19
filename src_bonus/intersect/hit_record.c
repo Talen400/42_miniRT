@@ -21,9 +21,9 @@ static t_cylinder_surface	identify_cylinder_surface(t_vec3 hit_point,
 
 	center_to_hit = vec3_subtract(hit_point, obj->shape.cylinder.center);
 	projection = vec3_dot(center_to_hit, obj->shape.cylinder.axis);
-	if (fabs(projection) < EPSILON)
+	if (fabs(projection) < 1e-4)
 		return (CYL_BOTTOM_CAP);
-	if (fabs(projection - obj->shape.cylinder.height) < EPSILON)
+	if (fabs(projection - obj->shape.cylinder.height) < 1e-4)
 		return (CYL_TOP_CAP);
 	return (CYL_BODY);
 }
@@ -63,7 +63,10 @@ void	fill_hit_record(t_hit_record *rec, t_ray *r, t_object *obj, double t)
 	}
 	else if (obj->type == PLANE)
 	{
-		rec->normal = obj->shape.plane.normal;
+		if (vec3_dot(r->direction, obj->shape.plane.normal) > 0)
+    		rec->normal = vec3_multiply(obj->shape.plane.normal, -1.0);
+		else
+    		rec->normal = obj->shape.plane.normal;
 		rec->color = obj->shape.plane.color;
 	}
 	else if (obj->type == CYLINDER)

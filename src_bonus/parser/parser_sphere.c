@@ -17,7 +17,7 @@ static bool	validate_sphere(char **tokens, t_parse_context *ctx,
 							t_sphere_data *data)
 {
 	if (ft_array_size((void **)tokens) != 4 &&
-		ft_array_size((void **)tokens) != 6)
+		ft_array_size((void **)tokens) != 7)
 	{
 		ft_error_and_free(ctx, tokens,
 			"sphere: expected format 'sp <X,Y,Z> <diameter> <R,G,B>'");
