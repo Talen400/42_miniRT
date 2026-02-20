@@ -74,6 +74,7 @@ SRCS_BONUS        := src_bonus/main.c \
 					 src_bonus/parser/parser_light.c \
 					 src_bonus/parser/parser_plane.c \
 					 src_bonus/parser/parser_sphere.c \
+					 src_bonus/parser/parser_cone.c \
 					 src_bonus/parser/parser_error.c \
 					 src_bonus/parser/parser.c \
 					 src_bonus/parser/parser_utils.c \
@@ -81,10 +82,12 @@ SRCS_BONUS        := src_bonus/main.c \
 					 src_bonus/vectors/vec_advanced.c \
 					 src_bonus/draw/draw.c \
 					 src_bonus/intersect/hit_sphere.c \
+					 src_bonus/intersect/hit_cone.c \
 					 src_bonus/intersect/hit_plane.c \
 					 src_bonus/intersect/hit_cylinder.c \
 					 src_bonus/intersect/hit_scene.c \
 					 src_bonus/intersect/hit_record.c \
+					 src_bonus/intersect/intersect_utils.c \
 					 src_bonus/lighting/lighting.c \
 					 src_bonus/color/color_convert.c \
 					 src_bonus/color/color_operations.c \
