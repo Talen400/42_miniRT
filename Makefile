@@ -14,7 +14,7 @@ MLX42_BUILD_DIR   := $(MLX42_DIR)/build
 # Compilador e flags
 CC                := cc
 CFLAGS            := -I$(INCLUDE_DIR) -I$(LIBFT_DIR)/include -I$(MLX42_DIR)/include
-LDFLAGS           := -L$(LIBFT_DIR) -L$(MLX42_BUILD_DIR) -lft -lmlx42 -lm -lglfw
+LDFLAGS           := -L$(LIBFT_DIR) -L$(MLX42_BUILD_DIR) -lft -lmlx42 -lm -lglfw 
 CFLAGS_DEBUG      := $(CFLAGS) -g -O0
 
 # Executable
@@ -78,7 +78,7 @@ SRCS_BONUS        := src_bonus/main.c \
 					 src_bonus/parser/parser_utils.c \
 					 src_bonus/vectors/vec_basic.c \
 					 src_bonus/vectors/vec_advanced.c \
-					 src_bonus/draw/draw_anti_aliasing.c \
+					 src_bonus/draw/draw_pthreads.c \
 					 src_bonus/intersect/hit_sphere.c \
 					 src_bonus/intersect/hit_cone.c \
 					 src_bonus/intersect/hit_plane.c \
@@ -93,6 +93,7 @@ SRCS_BONUS        := src_bonus/main.c \
 
 OBJS_BONUS        := $(patsubst $(SRC_BONUS_DIR)/%.c,$(OBJ_BONUS_DIR)/%.o,$(SRCS_BONUS))
 CFLAGS_BONUS      := -Wall -Wextra -Werror -I$(INCLUDE_BONUS_DIR) -I$(LIBFT_DIR)/include -I$(MLX42_DIR)/include
+LDFLAGS_BONUS           := -L$(LIBFT_DIR) -L$(MLX42_BUILD_DIR) -lft -lmlx42 -lm -lglfw -lpthread
 
 # Bibliotecas
 LIBFT             := $(LIBFT_DIR)/libft.a
@@ -118,7 +119,7 @@ $(OBJ_DIR):
 bonus: $(LIBFT) $(MLX42_LIB) $(NAME_BONUS)
 
 $(NAME_BONUS): $(OBJS_BONUS)
-	$(CC) $(CFLAGS_BONUS) $(OBJS_BONUS) $(LDFLAGS) -o $(NAME_BONUS)
+	$(CC) $(CFLAGS_BONUS) $(OBJS_BONUS) $(LDFLAGS_BONUS) -o $(NAME_BONUS)
 	@echo "✓ $(NAME_BONUS) (bonus) compilado com sucesso!"
 
 $(OBJ_BONUS_DIR)/%.o: $(SRC_BONUS_DIR)/%.c | $(OBJ_BONUS_DIR)

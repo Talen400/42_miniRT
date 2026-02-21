@@ -6,12 +6,12 @@
 /*   By: rgregori <rgregori@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026-02-10 15:35:09 by rgregori          #+#    #+#             */
-/*   Updated: 2026-02-10 15:35:09 by rgregori         ###   ########.fr       */
+/*   Updated: 2026/02/21 20:26:04 by tlavared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRt.h"
-#include "intersect.h"
+#include "../../include_bonus/miniRt.h"
+#include "../../include_bonus/intersect.h"
 
 static t_color	calculate_light_contribution(t_light *light,
 				t_hit_record *rec, double diffuse)

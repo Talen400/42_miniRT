@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_anti_aliasing.c                               :+:      :+:    :+:   */
+/*   draw_pthreads.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlavared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 01:44:49 by tlavared          #+#    #+#             */
-/*   Updated: 2026/02/21 20:31:29 by tlavared         ###   ########.fr       */
+/*   Updated: 2026/02/21 20:52:20 by tlavared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 #include "../include_bonus/intersect.h"
 #include <stdlib.h>
 
-#define SAMPLES_PER_PIXEL 1
+#define SAMPLES_PER_PIXEL 64
+
+#define NUM_THREADS 4
 
 /*
  *
@@ -119,29 +121,58 @@ static t_color	pixel_color_aa(t_minirt *minirt, int x, int y)
 	return (sample_color);
 }
 
-
-static void	drawing(t_minirt *minirt)
+static void	*render_rows(void *arg)
 {
+	t_thread_data	*data;
 	int		x;
 	int		y;
 	t_color	color;
 
-	y = 0;
-	while (y < minirt->scene.height)
+	data = (t_thread_data *) arg;
+	y = data->y_start;
+	while (y < data->y_end)
 	{
 		x = 0;
-		while (x < minirt->scene.width)
+		while (x < data->minirt->scene.width)
 		{
-			color = pixel_color_aa(minirt, x, y);
-			put(minirt, x, y, color_to_int32(color));
+			color = pixel_color_aa(data->minirt, x, y);
+			put(data->minirt, x, y, color_to_int32(color));
 			x++;
 		}
 		y++;
 	}
+	return (NULL);
+}
+
+static void	drawing(t_minirt *minirt)
+{
+	pthread_t		threads[NUM_THREADS];
+	t_thread_data	data[NUM_THREADS];
+	int				rows_per_thread;
+	int				i;
+
+	rows_per_thread = minirt->scene.height / NUM_THREADS;
+	i = 0;
+	while (i < NUM_THREADS)
+	{
+		data[i].minirt = minirt;
+		data[i].y_start = i * rows_per_thread;
+		if (i == NUM_THREADS - 1)
+			data[i].y_end = minirt->scene.height;
+		else
+			data[i].y_end = data[i].y_start + rows_per_thread;
+		data[i].seed = 12345 * (i + 1);
+		pthread_create(&threads[i], NULL, render_rows, &data[i]);
+		i++;
+	}
+	i = 0;
+	while (i < NUM_THREADS)
+		pthread_join(threads[i++], NULL);
 }
 
 int	draw(t_minirt *minirt)
 {
+	printf("entrou \n");
 	ft_clearimg(minirt);
 	drawing(minirt);
 	return (0);

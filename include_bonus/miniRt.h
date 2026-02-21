@@ -6,7 +6,7 @@
 /*   By: student <student@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 00:00:00 by student           #+#    #+#             */
-/*   Updated: 2026/02/02 17:04:17 by tlavared         ###   ########.fr       */
+/*   Updated: 2026/02/21 20:46:46 by tlavared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <unistd.h>     // read, write
 # include <stdio.h>      // printf (apenas para debugging)
 # include <stdbool.h>    // tipo bool (true/false)
+# include <pthread.h>
 
 #include "vectors.h"   // Operações com vetores 3D
 
@@ -233,11 +234,21 @@ typedef struct s_mlx_data
 	int			line_length;      // Bytes por linha (com padding possível)
 	int			endian;           // Ordem dos bytes (0=little, 1=big endian)
 }	t_mlx_data;
+
 typedef struct s_minirt
 {
 	t_scene		scene;
 	t_mlx_data	mlx;
 }	t_minirt;
+
+typedef struct	s_thread_data
+{
+	int				y_start;
+	int				y_end;
+	t_minirt		*minirt;
+	unsigned int	seed;
+}	t_thread_data;
+
 
 t_ray		ray_create(t_point3 origin, t_vec3 direction);
 void		render_scene(t_minirt *rt);
