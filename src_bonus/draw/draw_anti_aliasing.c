@@ -1,26 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw.c                                             :+:      :+:    :+:   */
+/*   draw_anti_aliasing.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tlavared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 01:44:49 by tlavared          #+#    #+#             */
-/*   Updated: 2026/02/13 XX:XX:XX by tlavared         ###   ########.fr       */
+/*   Updated: 2026/02/21 20:17:38 by tlavared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/miniRt.h"
-#include "../include/mlx_rt.h"
-#include "../include/color.h"
-#include "intersect.h"
+#include "../include_bonus/miniRt.h"
+#include "../include_bonus/mlx_rt.h"
+#include "../include_bonus/color.h"
+#include "../include_bonus/intersect.h"
 #include <stdlib.h>
 
 #define SAMPLES_PER_PIXEL 64
 
+/*
+ *
+ * Uma alternativa para o rand().
+ *
+ * Static e inline para o compilador otimizar a operação
+ *
+ * É static por que o valor precisa mudar a cada chamada
+*/
+static inline	int fast_rand(void)
+{
+	static unsigned int seed = 12345;
+
+	seed = 214013 * seed + 2531011;
+	return ((seed >> 16) &  0x7FFF);
+}
+
 static double	random_double(void)
 {
-	return (rand() / (RAND_MAX + 1.0));
+	return (fast_rand() / (double ) 0x7FFF);
 }
 
 t_color	sky_color(t_ray *r)
@@ -103,6 +119,7 @@ static t_color	pixel_color_aa(t_minirt *minirt, int x, int y)
 	return (sample_color);
 }
 
+
 static void	drawing(t_minirt *minirt)
 {
 	int		x;
@@ -121,4 +138,11 @@ static void	drawing(t_minirt *minirt)
 		}
 		y++;
 	}
+}
+
+int	draw(t_minirt *minirt)
+{
+	ft_clearimg(minirt);
+	drawing(minirt);
+	return (0);
 }

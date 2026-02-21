@@ -6,11 +6,11 @@
 /*   By: tlavared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 01:44:49 by tlavared          #+#    #+#             */
-/*   Updated: 2026/02/02 19:34:25 by tlavared         ###   ########.fr       */
+/*   Updated: 2026/02/21 19:38:21 by tlavared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRt.h"
+#include "../../include_bonus/miniRt.h"
 #include "mlx_rt.h"
 #include "color.h"
 #include "intersect.h"

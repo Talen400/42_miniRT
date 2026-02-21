@@ -78,7 +78,7 @@ SRCS_BONUS        := src_bonus/main.c \
 					 src_bonus/parser/parser_utils.c \
 					 src_bonus/vectors/vec_basic.c \
 					 src_bonus/vectors/vec_advanced.c \
-					 src_bonus/draw/draw.c \
+					 src_bonus/draw/draw_anti_aliasing.c \
 					 src_bonus/intersect/hit_sphere.c \
 					 src_bonus/intersect/hit_cone.c \
 					 src_bonus/intersect/hit_plane.c \
