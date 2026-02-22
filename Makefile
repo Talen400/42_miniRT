@@ -30,7 +30,6 @@ SRCS              := src/main.c \
 					 src/parser/parser_camera.c \
 					 src/parser/parser_camera_utils.c \
 					 src/parser/parser_cylinder.c \
-					 src/parser/parser_cone.c \
 					 src/parser/parser_light.c \
 					 src/parser/parser_plane.c \
 					 src/parser/parser_sphere.c \
@@ -42,7 +41,6 @@ SRCS              := src/main.c \
 					 src/mlx_utils.c \
 					 src/draw/draw.c \
 					 src/intersect/hit_sphere.c \
-					 src/intersect/intersect_utils.c \
 					 src/intersect/hit_plane.c \
 					 src/intersect/hit_cylinder.c \
 					 src/intersect/hit_scene.c \

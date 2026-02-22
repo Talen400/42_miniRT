@@ -6,7 +6,7 @@
 /*   By: rgregori <rgregori@student.42sp.org.br>    #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026-02-10 15:35:09 by rgregori          #+#    #+#             */
-/*   Updated: 2026-02-10 15:35:09 by rgregori         ###   ########.fr       */
+/*   Updated: 2026/02/21 19:13:06 by tlavared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,9 @@ t_color	calculate_lighting(t_scene *scene, t_hit_record *rec)
 	t_vec3	to_light;
 	double	diffuse;
 
-	final_color = color_scale(rec->color, scene->ambient.intensity);
+	// adicionando contribuição da cor ambiente
+	final_color = color_add(color_scale(rec->color, scene->ambient.intensity),
+			scene->ambient.color);
 	current_light = scene->lights;
 	while (current_light)
 	{
