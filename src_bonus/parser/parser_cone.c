@@ -9,7 +9,7 @@
 /*   Updated: 2026-02-19 17:19:09 by rgregori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
+#include "miniRt.h"
 #include "parser.h"
 
 static bool	helper_validate_cone(char **tokens, t_parse_context *ctx,
