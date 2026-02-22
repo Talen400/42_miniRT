@@ -253,7 +253,7 @@ cy 0,-3,2 0,1,0 2.0 6.0 255,128,0
 ### Bonus
 
 - [x] Reflexão especular — modelo de Phong completo (componente especular `ks` + `shininess` por objeto)
-- [ ] Disrupção de cor — padrão de tabuleiro de xadrez (checkerboard) nos objetos
+- [x] Disrupção de cor — padrão de tabuleiro de xadrez (checkerboard) nos objetos
 - [x] Luzes coloridas e multi-spot — múltiplas luzes com cores distintas e acumulação de contribuições
 - [x] Segundo objeto de segundo grau — cone (`cn`) com intersecção de raio e verificação de altura
 - [ ] Bump mapping — texturas de mapa de relevo para perturbação da normal

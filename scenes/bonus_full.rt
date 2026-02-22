@@ -1,4 +1,4 @@
-# Cena completa - testa tudo: iluminacao, sombra, especular e reflexao
+# Cena completa - testa tudo: iluminacao, sombra, especular, reflexao e checkerboard
 # Duas luzes para testar acumulacao de contribuicoes
 
 A 0.15 255,255,255
@@ -8,22 +8,23 @@ C 0,4,-14 0,-0.2,1 65
 L -10,15,-5 0.8 255,255,255
 L 10,8,0 0.5 180,220,255
 
-# Esfera espelhada (alta reflectividade)
-sp -4,0,10 3.0 0,255,0 0.5 0.3 1 128 0.5
+# Esfera espelhada com checker (verde/branco, casas grandes escala 0.5)
+sp -4,0,10 3.0 0,200,0 0.5 0.3 1 128 0.5 255,255,255 0.5
 
-# Esfera vermelha brilhante (baixa reflectividade)
-sp 4,0,10 3.0 255,60,60 0.6 0.8 1 64 0.1
+# Esfera vermelha com checker (vermelho/escuro, casas medias escala 3)
+sp 4,0,10 3.0 255,60,60 0.6 0.8 1 64 0.1 120,10,10 3.0
 
-# Esfera atras - aparece refletida na esfera espelhada
-sp 0,5,18 2.5 80,200,255 0.4 0.4 1 32 0.0
+# Esfera azul atras com checker (azul/ciano, casas pequenas escala 8)
+sp 0,5,18 2.5 80,200,255 0.4 0.4 1 32 0.0 10,60,140 8.0
 
-# Chao reflexivo - principal teste de reflexao
-pl 0,-2,0 0,1,0 160,160,160 0.5 0.7 0.7 16 0.6
+# Chao reflexivo com checker (cinza/preto, escala 2)
+pl 0,-2,0 0,1,0 180,180,180 0.5 0.7 0.7 16 0.6 0,0,0 2.0
 
-# Parede ao fundo (sem reflexao)
-pl 0,0,30 0,0,-1 100,100,140 0.3 0.6 0.6 8 0.0
+# Parede ao fundo com checker (azul/branco, escala 3)
+pl 0,0,30 0,0,-1 80,80,160 0.3 0.6 0.6 8 0.0 200,200,255 3.0
 
-# Cilindro metalico (reflectividade media)
-cy 0,-2,8 0,1,0 1.5 5.0 180,180,200 0.6 0.6 0.6 96 0.4
-# Cone amarelo (teste de novo objeto)
-cn -8,2,5 0,1,0 2.0 4.0 255,255,0 0.5 0.7 0.4 50 0.2
+# Cilindro metalico com checker (prata/escuro, escala 3)
+cy 0,-2,8 0,1,0 1.5 5.0 180,180,200 0.6 0.6 0.6 96 0.4 60,60,80 3.0
+
+# Cone amarelo com checker (amarelo/vermelho, escala 5)
+cn -8,2,5 0,1,0 2.0 4.0 255,220,0 0.5 0.7 0.4 50 0.2 200,50,0 5.0

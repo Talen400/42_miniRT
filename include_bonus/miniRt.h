@@ -37,13 +37,15 @@
 # define PL_NARGS 4
 # define SP_NARGS 4
 # define CN_NARGS 6
-# define B_NARGS 5
+# define B_NARGS 7
 # define KS_DEFAULT 0.2
 # define KD_DEFAULT 0.7
 # define KA_DEFAULT 0.2
 # define SHININESS_DEFAULT 30
 # define REFLECTIVITY_DEFAULT 0
 # define REFLECTION_DEPTH 5
+# define CHECKER_SCALE_DEFAULT 1.0
+# define CHECKER_COLOR2_DEFAULT 0x000000FF
 /*
 ** Definições de tamanho da janela e precisão numérica
 ** Estas constantes controlam aspectos fundamentais da renderização
@@ -190,6 +192,9 @@ typedef struct s_object
 	double			ka;
 	double			shininess;
 	double			reflectivity;
+	bool			has_checker;
+	t_color 		color2;
+	double  		checker_scale;
 	struct s_object	*next;
 }	t_object;
 

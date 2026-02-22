@@ -78,6 +78,17 @@ static t_vec3	cylinder_normal(t_vec3 hit_point, t_object *obj,
 	}
 }
 
+t_color	get_object_color(t_object *obj)
+{
+	if (obj->type == SPHERE)
+		return (obj->shape.sphere.color);
+	if (obj->type == PLANE)
+		return (obj->shape.plane.color);
+	if (obj->type == CYLINDER)
+		return (obj->shape.cylinder.color);
+	return (obj->shape.cone.color);
+}
+
 void	fill_hit_record(t_hit_record *rec, t_ray *r, t_object *obj, double t)
 {
 	rec->object = obj;
@@ -88,25 +99,20 @@ void	fill_hit_record(t_hit_record *rec, t_ray *r, t_object *obj, double t)
 	{
 		rec->normal = vec3_normalize(vec3_subtract(rec->point,
 					obj->shape.sphere.center));
-		rec->color = obj->shape.sphere.color;
 	}
 	else if (obj->type == PLANE)
 	{
 		if (vec3_dot(r->direction, obj->shape.plane.normal) > 0)
-    		rec->normal = vec3_multiply(obj->shape.plane.normal, -1.0);
+			rec->normal = vec3_multiply(obj->shape.plane.normal, -1.0);
 		else
-    		rec->normal = obj->shape.plane.normal;
-		rec->color = obj->shape.plane.color;
+			rec->normal = obj->shape.plane.normal;
 	}
 	else if (obj->type == CYLINDER)
 	{
 		rec->cylinder_surface = identify_cylinder_surface(rec->point, obj);
 		rec->normal = cylinder_normal(rec->point, obj, rec->cylinder_surface);
-		rec->color = obj->shape.cylinder.color;
 	}
 	else if (obj->type == CONE)
-	{
 		rec->normal = cone_normal(rec->point, obj);
-		rec->color = obj->shape.cone.color;
-	}
+	rec->color = get_surface_color(rec->point, obj);
 }

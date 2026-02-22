@@ -80,6 +80,7 @@ SRCS_BONUS        := src_bonus/main.c \
 					 src_bonus/vectors/vec_advanced.c \
 					 src_bonus/draw/draw.c \
 					 src_bonus/intersect/hit_sphere.c \
+					 src_bonus/intersect/checkerboard.c \
 					 src_bonus/intersect/hit_cone.c \
 					 src_bonus/intersect/hit_plane.c \
 					 src_bonus/intersect/hit_cylinder.c \

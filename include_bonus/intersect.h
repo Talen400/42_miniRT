@@ -30,5 +30,7 @@ double	hit_cylinder(t_ray *r, t_object *obj);
 double	hit_cone(t_ray *r, t_object *obj);
 bool	hit_scene(t_ray *r, t_object *objects, t_hit_record *rec, double t_min);
 void	fill_hit_record(t_hit_record *rec, t_ray *r, t_object *obj, double t);
+t_color	get_object_color(t_object *obj);
+t_color	get_surface_color(t_vec3 point, t_object *obj);
 
 #endif

@@ -12,6 +12,7 @@
 
 #include "miniRt.h"
 #include "parser.h"
+#include "color.h"
 
 static bool	validate_phong_params(t_object *obj)
 {
@@ -65,14 +66,38 @@ static bool	set_reflectivity(t_object *obj, char **tokens, int base_count,
 	return (true);
 }
 
+static bool	set_checker(t_object *obj, char **tokens, int base_count,
+	bool has_extra_args)
+{
+	double	scale;
+
+	if (has_extra_args)
+	{
+		if (!parse_color(tokens[base_count + 5], &obj->color2))
+			return (false);
+		scale = ft_atod(tokens[base_count + 6]);
+		obj->checker_scale = scale;
+		obj->has_checker = true;
+	}
+	else
+	{
+		obj->color2 = init_color(CHECKER_COLOR2_DEFAULT);
+		obj->checker_scale = CHECKER_SCALE_DEFAULT;
+		obj->has_checker = false;
+	}
+	return (true);
+}
+
 bool	set_extra_args(t_object *obj, char **tokens, int base_count)
 {
 	bool	has_extra_args;
 
-	has_extra_args = (ft_array_size((void **)tokens) == (size_t)base_count + 5);
+	has_extra_args = (ft_array_size((void **)tokens) == (size_t)base_count + B_NARGS);
 	if (!set_reflectivity(obj, tokens, base_count, has_extra_args))
 		return (false);
 	if (!set_phong_params(obj, tokens, base_count, has_extra_args))
+		return (false);
+	if (!set_checker(obj, tokens, base_count, has_extra_args))
 		return (false);
 	return (true);
 }
