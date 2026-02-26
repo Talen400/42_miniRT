@@ -45,6 +45,11 @@ void	destroy_scene(t_scene *scene)
 	while (current_obj)
 	{
 		next_obj = current_obj->next;
+		if (current_obj->bump_map)
+		{
+			free(current_obj->bump_map->data);
+			free(current_obj->bump_map);
+		}
 		free(current_obj);
 		current_obj = next_obj;
 	}

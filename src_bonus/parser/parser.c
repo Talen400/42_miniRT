@@ -91,6 +91,7 @@ bool	process_line(t_parse_context *context, t_scene *scene, const char *line)
 bool	parse_scene(const char *filename, t_scene *scene)
 {
 	char			*file_content;
+	char			*trimmed_line;
 	t_parse_context	parse_context;
 	int				fd;
 
@@ -102,11 +103,14 @@ bool	parse_scene(const char *filename, t_scene *scene)
 	while (file_content)
 	{
 		parse_context.current_line++;
-		if (!process_line(&parse_context, scene, file_content))
+		trimmed_line = ft_strtrim(file_content, "\n\r");
+		if (!process_line(&parse_context, scene, trimmed_line))
 		{
 			free(file_content);
+			free(trimmed_line);
 			break ;
 		}
+		free(trimmed_line);
 		free(file_content);
 		file_content = get_next_line(fd);
 	}

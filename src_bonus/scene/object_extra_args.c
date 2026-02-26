@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../MLX42/include/lodepng/lodepng.h"
 #include "miniRt.h"
 #include "parser.h"
 #include "color.h"
@@ -88,16 +89,77 @@ static bool	set_checker(t_object *obj, char **tokens, int base_count,
 	return (true);
 }
 
+static bool load_bump_map(t_object *obj, char *path)
+{
+	unsigned int	w;
+	unsigned int	h;
+
+	obj->bump_map = malloc (sizeof(t_bump_map));
+	if (!obj->bump_map)
+		return (false);
+	if (lodepng_decode32_file(&obj->bump_map->data, &w, &h, path) != 0)
+	{
+		free(obj->bump_map);
+		obj->bump_map = NULL;
+		return (false);
+	}
+	obj->bump_map->width = w;
+	obj->bump_map->height = h;
+	return (true);
+}
+
+static bool	set_bump(t_object *obj, char **tokens, int base_count,
+	bool has_extra_args)
+{
+	double			bump;
+
+
+	if (has_extra_args)
+	{
+		bump = ft_atod(tokens[base_count + 7]);
+		if (bump < 0.0)
+			return (false);
+		obj->bump_scale = bump;
+		obj->bump_map = NULL;
+		if (bump > 0.0 && ft_strcmp(tokens[base_count + 8], "none") != 0
+			&& !load_bump_map(obj, tokens[base_count + 8]))
+			return (false);
+	}
+	else
+	{
+		obj->bump_scale = BUMP_SCALE_DEFAULT;
+		obj->bump_map = NULL;
+	}
+	return (true);
+}
+
 bool	set_extra_args(t_object *obj, char **tokens, int base_count)
 {
 	bool	has_extra_args;
+	size_t	array_size;
 
-	has_extra_args = (ft_array_size((void **)tokens) == (size_t)base_count + B_NARGS);
+	array_size = ft_array_size((void **)tokens);
+	has_extra_args = (array_size == (size_t)base_count + B_NARGS);
+	printf("DEBUG extras: size=%zu base=%d expected=%d has=%d\n", array_size, base_count, base_count + B_NARGS, has_extra_args);
 	if (!set_reflectivity(obj, tokens, base_count, has_extra_args))
+	{
+		printf("DEBUG extras: reflectivity fail\n");
 		return (false);
+	}
 	if (!set_phong_params(obj, tokens, base_count, has_extra_args))
+	{
+		printf("DEBUG extras: phong fail\n");
 		return (false);
+	}
 	if (!set_checker(obj, tokens, base_count, has_extra_args))
+	{
+		printf("DEBUG extras: checker fail\n");
 		return (false);
+	}
+	if (!set_bump(obj, tokens, base_count, has_extra_args))
+	{
+		printf("DEBUG extras: bump fail\n");
+		return (false);
+	}
 	return (true);
 }

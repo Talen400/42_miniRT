@@ -37,7 +37,7 @@
 # define PL_NARGS 4
 # define SP_NARGS 4
 # define CN_NARGS 6
-# define B_NARGS 7
+# define B_NARGS 9
 # define KS_DEFAULT 0.2
 # define KD_DEFAULT 0.7
 # define KA_DEFAULT 0.2
@@ -46,6 +46,7 @@
 # define REFLECTION_DEPTH 5
 # define CHECKER_SCALE_DEFAULT 1.0
 # define CHECKER_COLOR2_DEFAULT 0x000000FF
+# define BUMP_SCALE_DEFAULT 0.0
 /*
 ** Definições de tamanho da janela e precisão numérica
 ** Estas constantes controlam aspectos fundamentais da renderização
@@ -168,6 +169,12 @@ typedef enum e_cylinder_surface
 	CYL_TOP_CAP
 }	t_cylinder_surface;
 
+typedef struct s_bump_map
+{
+    unsigned char   *data;   // pixels RGBA do PNG
+    unsigned int    width;
+    unsigned int    height;
+}   t_bump_map;
 
 typedef enum e_object_type
 {
@@ -193,8 +200,10 @@ typedef struct s_object
 	double			shininess;
 	double			reflectivity;
 	bool			has_checker;
-	t_color 		color2;
-	double  		checker_scale;
+	t_color			color2;
+	double			checker_scale;
+	double			bump_scale;
+	t_bump_map		*bump_map;
 	struct s_object	*next;
 }	t_object;
 

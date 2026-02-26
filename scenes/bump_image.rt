@@ -1,0 +1,17 @@
+# Cena com plano de areia e esfera duas cores
+# Textura de areia em textures/sand.png usada como bump map
+# Fundo iluminado de azul via luz ambiente
+# Formato extra args: ks kd ka shininess reflectivity color2 checker_scale bump_scale png_path
+
+A 0.3 100,150,255
+
+C 0,3,-10 0,-0.2,1 70
+
+L 0,10,-5 1.0 255,255,255
+L -5,5,0 0.6 200,180,255
+
+# plano de areia estendido
+pl 0,-3,0 0,1,0 220,200,160 0.4 0.5 0.3 1 0.0 200,180,160 4.0 0.6 textures/areia.png
+
+# esfera duas cores (branco/rosa) com checker
+sp 0,0,8 2.5 255,255,255 0.5 0.5 0.5 64 0.0 255,150,200 2.5 0.0 none

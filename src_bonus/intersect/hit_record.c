@@ -114,5 +114,6 @@ void	fill_hit_record(t_hit_record *rec, t_ray *r, t_object *obj, double t)
 	}
 	else if (obj->type == CONE)
 		rec->normal = cone_normal(rec->point, obj);
+	perturb_normal(rec->point, &rec->normal, obj);
 	rec->color = get_surface_color(rec->point, obj);
 }
