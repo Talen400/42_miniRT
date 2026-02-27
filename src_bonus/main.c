@@ -15,19 +15,20 @@
 #include "scene.h"
 #include "../include/mlx_rt.h"
 #include <stdio.h>
+#include <time.h>
 
 static bool validate_args(int argc, char **argv)
 {
 	int len;
 	if (argc != 2)
 	{
-		printf("Error: usage %s <scene.rt>\n", argv[0]);
+		fprintf(stderr, "Error: usage %s <scene.rt>\n", argv[0]);
 		return (false);
 	}
 	len = ft_strlen(argv[1]);
 	if (len < 4 || ft_strncmp(argv[1] + len - 3, ".rt", 3) != 0)
 	{
-		printf("Error: file must have .rt extension\n");
+		fprintf(stderr, "Error: file must have .rt extension\n");
 		return (false);
 	}
 	return (true);
@@ -62,11 +63,16 @@ int	main(int argc, char **argv)
 	minirt.scene = scene_init();
 	if (!parse_scene(argv[1], &minirt.scene))
 	{
-		printf("Failed to parse scene file: %s\n", argv[1]);
+		fprintf(stderr, "Failed to parse scene file: %s\n", argv[1]);
+		destroy_scene(&minirt.scene);
 		return (1);
 	}
 	if (init_mlx(&minirt))
+	{
+		destroy_scene(&minirt.scene);
 		return (1);
+	}
+	srand(time(NULL));
 	draw(&minirt);
 	if (mlx_image_to_window(minirt.mlx.mlx_ptr,	minirt.mlx.img_ptr, 0, 0) == -1)
 		return (ft_errorimg(minirt.mlx.mlx_ptr, minirt.mlx.img_ptr));

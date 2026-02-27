@@ -51,11 +51,13 @@
 ** Definições de tamanho da janela e precisão numérica
 ** Estas constantes controlam aspectos fundamentais da renderização
 */
-
+#define SAMPLES_PER_PIXEL 9
 # define WIDTH 1280          // Largura padrão da janela em pixels
 # define HEIGHT 800         // Altura padrão da janela em pixels
 # define EPSILON 1e-6        // Valor muito pequeno para comparações de float
                              // Usado para evitar problemas de precisão numérica
+# define CAP_EPSILON 1e-4    // Tolerância para identificar caps de cilindro/cone
+                             // Maior que EPSILON pois é uma distância geométrica
 
 /*
 ** Constantes matemáticas importantes para ray tracing
@@ -233,6 +235,7 @@ typedef struct s_scene
 	t_ambient	ambient;      // Luz ambiente da cena (apenas uma)
 	t_light		*lights;      // Lista ligada de luzes pontuais (uma ou mais)
 	t_object	*objects;     // Lista ligada de objetos (zero ou mais)
+	t_object	*obj_tail;    // Ponteiro para o último objeto (inserção O(1))
 	int			width;        // Largura da imagem em pixels
 	int			height;       // Altura da imagem em pixels
 }	t_scene;

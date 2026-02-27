@@ -39,7 +39,7 @@ t_vec3	vec3_normalize(t_vec3 v)
 
 	length = vec3_length(v);
 	if (length == 0)
-		length = 0.001;
+		return (vec3_create(0, 0, 0));
 	result.x = v.x / length;
 	result.y = v.y / length;
 	result.z = v.z / length;

@@ -82,7 +82,7 @@ static void	bump_sphere(t_vec3 point, t_object *obj, t_vec3 *normal)
 	if (obj->bump_map)
 		calc_grad_image(&f, obj->bump_map, u, v);
 	else
-		calc_grad_proc(&f, u * obj->checker_scale, v * obj->checker_scale);
+		calc_grad_proc(&f, u, v);
 	apply_bump(normal, &f);
 }
 
@@ -130,7 +130,7 @@ static void	bump_cylinder(t_vec3 point, t_object *obj, t_vec3 *normal)
 	if (obj->bump_map)
 		calc_grad_image(&f, obj->bump_map, u, fmod(fabs(v), 1.0));
 	else
-		calc_grad_proc(&f, u * obj->checker_scale, v * obj->checker_scale);
+		calc_grad_proc(&f, u, v);
 	apply_bump(normal, &f);
 }
 
@@ -154,7 +154,7 @@ static void	bump_cone(t_vec3 point, t_object *obj, t_vec3 *normal)
 	if (obj->bump_map)
 		calc_grad_image(&f, obj->bump_map, u, fmod(fabs(v), 1.0));
 	else
-		calc_grad_proc(&f, u * obj->checker_scale, v * obj->checker_scale);
+		calc_grad_proc(&f, u, v);
 	apply_bump(normal, &f);
 }
 

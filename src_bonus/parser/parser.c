@@ -83,6 +83,7 @@ bool	process_line(t_parse_context *context, t_scene *scene, const char *line)
 		}
 		i++;
 	}
+	print_parse_error(context->filename, context->current_line, identifier);
 	context->error_occurred = true;
 	free(identifier);
 	return (false);

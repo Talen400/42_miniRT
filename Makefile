@@ -79,6 +79,7 @@ SRCS_BONUS        := src_bonus/main.c \
 					 src_bonus/vectors/vec_basic.c \
 					 src_bonus/vectors/vec_advanced.c \
 					 src_bonus/draw/draw.c \
+					 src_bonus/draw/draw_utils.c \
 					 src_bonus/intersect/hit_sphere.c \
 					 src_bonus/intersect/bump_mapping.c \
 					 src_bonus/intersect/checkerboard.c \
@@ -148,7 +149,7 @@ fclean: clean
 	rm -rf $(MLX42_BUILD_DIR)
 
 re: fclean all
-
+re_bonus : fclean bonus
 debug: CFLAGS = $(CFLAGS_DEBUG)
 debug: fclean $(NAME)
 	@echo "✓ Debug build concluído!"

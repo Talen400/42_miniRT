@@ -31,7 +31,7 @@ t_color	sky_color(t_ray *r)
 			color_scale(blue, t)));
 }
 
-static t_color	ray_color(t_ray *r, t_scene *scene)
+t_color	ray_color(t_ray *r, t_scene *scene)
 {
 	t_hit_record	rec;
 	t_color			norm_color;
@@ -45,27 +45,10 @@ static t_color	ray_color(t_ray *r, t_scene *scene)
 	return (sky_color(r));
 }
 
-static t_ray	pixel_ray(t_camera *cam, int x, int y, t_scene *scene)
-{
-	double	u;
-	double	v;
-	t_vec3	pixel_center;
-	t_vec3	dir;
-
-	u = (0.5 + x) / (scene->width - 1.0);
-	v = (0.5 + y) / (scene->height - 1.0);
-	pixel_center = vec3_add(cam->lower_left_corner,
-			vec3_add(vec3_multiply(cam->horizontal, u),
-				vec3_multiply(cam->vertical, v)));
-	dir = vec3_normalize(vec3_subtract(pixel_center, cam->position));
-	return (ray_create(cam->position, dir));
-}
-
 static void	drawing(t_minirt *minirt)
 {
 	int		x;
 	int		y;
-	t_ray	r;
 	t_color	color;
 
 	y = 0;
@@ -74,8 +57,7 @@ static void	drawing(t_minirt *minirt)
 		x = 0;
 		while (x < minirt->scene.width)
 		{
-			r = pixel_ray(&minirt->scene.camera, x, y, &minirt->scene);
-			color = ray_color(&r, &minirt->scene);
+			color = pixel_color_aa(minirt, x, y);
 			put(minirt, x, y, color_to_int32(color));
 			x++;
 		}

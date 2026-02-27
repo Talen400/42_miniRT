@@ -20,7 +20,7 @@ static bool	is_cone_base(t_vec3 hit_point, t_object *obj)
 
 	apex_to_hit = vec3_subtract(hit_point, obj->shape.cone.apex);
 	projection = vec3_dot(apex_to_hit, obj->shape.cone.axis);
-	return (fabs(projection - obj->shape.cone.height) < 1e-4);
+	return (fabs(projection - obj->shape.cone.height) < CAP_EPSILON);
 }
 
 static t_vec3	cone_normal(t_vec3 hit_point, t_object *obj)
@@ -50,9 +50,9 @@ static t_cylinder_surface	identify_cylinder_surface(t_vec3 hit_point,
 
 	center_to_hit = vec3_subtract(hit_point, obj->shape.cylinder.center);
 	projection = vec3_dot(center_to_hit, obj->shape.cylinder.axis);
-	if (fabs(projection) < 1e-4)
+	if (fabs(projection) < CAP_EPSILON)
 		return (CYL_BOTTOM_CAP);
-	if (fabs(projection - obj->shape.cylinder.height) < 1e-4)
+	if (fabs(projection - obj->shape.cylinder.height) < CAP_EPSILON)
 		return (CYL_TOP_CAP);
 	return (CYL_BODY);
 }
@@ -86,7 +86,10 @@ t_color	get_object_color(t_object *obj)
 		return (obj->shape.plane.color);
 	if (obj->type == CYLINDER)
 		return (obj->shape.cylinder.color);
-	return (obj->shape.cone.color);
+	if (obj->type == CONE)
+		return (obj->shape.cone.color);
+	error_exit("get_object_color: unknown object type");
+	return ((t_color){0, 0, 0, 255});
 }
 
 void	fill_hit_record(t_hit_record *rec, t_ray *r, t_object *obj, double t)

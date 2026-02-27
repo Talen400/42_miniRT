@@ -20,6 +20,7 @@ t_scene	scene_init(void)
 	scene.ambient = (t_ambient){};
 	scene.lights = NULL;
 	scene.objects = NULL;
+	scene.obj_tail = NULL;
 	scene.width = WIDTH;
 	scene.height = HEIGHT;
 	return (scene);
@@ -57,17 +58,11 @@ void	destroy_scene(t_scene *scene)
 
 void	add_object_to_scene(t_scene *scene, t_object *obj)
 {
-	t_object	*current;
-
 	if (!scene || !obj)
 		return ;
 	if (!scene->objects)
-	{
 		scene->objects = obj;
-		return ;
-	}
-	current = scene->objects;
-	while (current->next)
-		current = current->next;
-	current->next = obj;
+	else
+		scene->obj_tail->next = obj;
+	scene->obj_tail = obj;
 }

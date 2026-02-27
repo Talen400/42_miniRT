@@ -97,7 +97,8 @@ static bool load_bump_map(t_object *obj, char *path)
 	obj->bump_map = malloc (sizeof(t_bump_map));
 	if (!obj->bump_map)
 		return (false);
-	if (lodepng_decode32_file(&obj->bump_map->data, &w, &h, path) != 0)
+	if (lodepng_decode32_file(&obj->bump_map->data, &w, &h, path) != 0
+		|| w == 0 || h == 0)
 	{
 		free(obj->bump_map);
 		obj->bump_map = NULL;
@@ -140,26 +141,13 @@ bool	set_extra_args(t_object *obj, char **tokens, int base_count)
 
 	array_size = ft_array_size((void **)tokens);
 	has_extra_args = (array_size == (size_t)base_count + B_NARGS);
-	printf("DEBUG extras: size=%zu base=%d expected=%d has=%d\n", array_size, base_count, base_count + B_NARGS, has_extra_args);
 	if (!set_reflectivity(obj, tokens, base_count, has_extra_args))
-	{
-		printf("DEBUG extras: reflectivity fail\n");
 		return (false);
-	}
 	if (!set_phong_params(obj, tokens, base_count, has_extra_args))
-	{
-		printf("DEBUG extras: phong fail\n");
 		return (false);
-	}
 	if (!set_checker(obj, tokens, base_count, has_extra_args))
-	{
-		printf("DEBUG extras: checker fail\n");
 		return (false);
-	}
 	if (!set_bump(obj, tokens, base_count, has_extra_args))
-	{
-		printf("DEBUG extras: bump fail\n");
 		return (false);
-	}
 	return (true);
 }

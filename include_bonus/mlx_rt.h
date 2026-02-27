@@ -17,6 +17,11 @@
 
 // src/draw/draw.c
 int		draw(t_minirt *minirt);
+t_color	ray_color(t_ray *r, t_scene *scene);
+t_color	sky_color(t_ray *r);
+
+// src/draw/draw_utils.c
+t_color	pixel_color_aa(t_minirt *minirt, int x, int y);
 
 // src/mlx_utils.c
 void	put(t_minirt *minirt, int x, int y, uint32_t color);
