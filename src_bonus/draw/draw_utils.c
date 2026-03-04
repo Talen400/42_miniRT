@@ -26,8 +26,8 @@ static t_ray	pixel_ray(t_camera *cam, double x, double y, t_scene *scene)
 	t_vec3	pixel_center;
 	t_vec3	dir;
 
-	u = x / (scene->width - 1.0);
-	v = y / (scene->height - 1.0);
+	u = (0.5 + x) / (scene->width - 1.0);
+	v = (0.5 + y) / (scene->height - 1.0);
 	pixel_center = vec3_add(cam->lower_left_corner,
 			vec3_add(vec3_multiply(cam->horizontal, u),
 				vec3_multiply(cam->vertical, v)));

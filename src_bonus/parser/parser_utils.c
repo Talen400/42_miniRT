@@ -12,6 +12,15 @@
 
 #include "parser.h"
 
+bool	valid_obj_token_count(size_t count, int base)
+{
+	int	extra;
+
+	extra = (int)count - base;
+	return (extra == 0 || extra == B_PHONG_NARGS || extra == B_REFL_NARGS
+		|| extra == B_CHECKER_NARGS || extra == B_BUMP_NARGS);
+}
+
 bool	ft_isempty_or_comment(const char *line)
 {
 	while (*line && ft_isspace(*line))

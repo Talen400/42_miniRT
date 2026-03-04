@@ -36,3 +36,11 @@ void	ft_error_and_free(t_parse_context *ctx,
 	print_parse_error(ctx->filename, ctx->current_line, message);
 	ft_free_split(tokens);
 }
+
+void	error_exit(const char *message)
+{
+	write(2, "Error\n", 6);
+	write(2, message, ft_strlen(message));
+	write(2, "\n", 1);
+	exit(1);
+}

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/mlx_rt.h"
+#include "mlx_rt.h"
 
 void	put(t_minirt *minirt, int x, int y, uint32_t color)
 {

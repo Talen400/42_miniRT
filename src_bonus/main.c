@@ -13,7 +13,7 @@
 #include "miniRt.h"
 #include "parser.h"
 #include "scene.h"
-#include "../include/mlx_rt.h"
+#include "mlx_rt.h"
 #include <stdio.h>
 #include <time.h>
 

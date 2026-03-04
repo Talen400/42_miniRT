@@ -38,6 +38,10 @@
 # define SP_NARGS 4
 # define CN_NARGS 6
 # define B_NARGS 9
+# define B_PHONG_NARGS 4
+# define B_REFL_NARGS 5
+# define B_CHECKER_NARGS 7
+# define B_BUMP_NARGS 9
 # define KS_DEFAULT 0.2
 # define KD_DEFAULT 0.7
 # define KA_DEFAULT 0.2
@@ -51,7 +55,7 @@
 ** Definições de tamanho da janela e precisão numérica
 ** Estas constantes controlam aspectos fundamentais da renderização
 */
-#define SAMPLES_PER_PIXEL 9
+#define SAMPLES_PER_PIXEL 4
 # define WIDTH 1280          // Largura padrão da janela em pixels
 # define HEIGHT 800         // Altura padrão da janela em pixels
 # define EPSILON 1e-6        // Valor muito pequeno para comparações de float

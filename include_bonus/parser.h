@@ -87,6 +87,7 @@ struct s_parse_context
 	bool		error_occurred;
 };
 
+bool		valid_obj_token_count(size_t count, int base);
 bool		validate_and_normalize_axis(t_vec3 *axis, t_parse_context *ctx,
 										char **tokens);
 bool		parse_scene(const char *filename, t_scene *scene);

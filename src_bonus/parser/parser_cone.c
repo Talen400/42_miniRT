@@ -40,8 +40,7 @@ static bool	helper_validate_cone(char **tokens, t_parse_context *ctx,
 static bool	validate_cone(char **tokens, t_parse_context *ctx,
 								t_cone_data *data)
 {
-	if (ft_array_size((void **)tokens) != CN_NARGS &&
-		ft_array_size((void **)tokens) != CN_NARGS + B_NARGS)
+	if (!valid_obj_token_count(ft_array_size((void **)tokens), CN_NARGS))
 	{
 		ft_error_and_free(ctx, tokens,
 			"Cone: format 'cn <x,y,z> <nx,ny,nz> <d> <h> <R,G,B>'");

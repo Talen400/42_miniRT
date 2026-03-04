@@ -32,8 +32,7 @@ static bool	validate_normal_vector(t_vec3 *normal, t_parse_context *ctx,
 static bool	validate_plane(char **tokens, t_parse_context *ctx,
 							t_plane_data *data)
 {
-	if (ft_array_size((void **)tokens) != PL_NARGS &&
-		ft_array_size((void **)tokens) != PL_NARGS + B_NARGS)
+	if (!valid_obj_token_count(ft_array_size((void **)tokens), PL_NARGS))
 	{
 		ft_error_and_free(ctx, tokens,
 			"Plane: expected format 'pl <x,y,z> <nx,ny,nz> <R,G,B>'");
