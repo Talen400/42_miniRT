@@ -6,12 +6,12 @@
 /*   By: rgregori <rgregori@student.42sp.org.br>    #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026-03-04 00:00:00 by rgregori          #+#    #+#             */
-/*   Updated: 2026-03-04 00:00:00 by rgregori         ###   ########.fr       */
+/*   Updated: 2026/03/04 18:35:12 by tlavared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../MLX42/include/lodepng/lodepng.h"
-#include "miniRt.h"
+#include "../../include_bonus/miniRt.h"
 #include "parser.h"
 
 static bool	load_bump_map(t_object *obj, char *path)

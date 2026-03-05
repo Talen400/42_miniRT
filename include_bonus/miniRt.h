@@ -6,7 +6,7 @@
 /*   By: student <student@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 00:00:00 by student           #+#    #+#             */
-/*   Updated: 2026/03/04 16:13:36 by tlavared         ###   ########.fr       */
+/*   Updated: 2026/03/04 21:08:51 by tlavared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,14 @@
 
 # define T_MIN 0.001         // Distância mínima para considerar uma interseção
 # define T_MAX 1e30          // Distância máxima (essencialmente infinito)
+
+/*
+ * Variável para quantidade threads;
+ * E tamanho dos blocos de pixel;
+ */
+
+#define TILES_SIZE 8
+#define NUM_THREADS 8
 
 /* ========================================================================== */
 /*                       ESTRUTURAS FUNDAMENTAIS                              */
@@ -245,15 +253,33 @@ typedef struct s_scene
 	int			height;       // Altura da imagem em pixels
 }	t_scene;
 
+typedef struct	s_tile
+{
+	int				y_start;
+	int				y_end;
+	int				x_start;
+	int				x_end;
+	struct s_tile	*next;
+}	t_tile;
+
+typedef struct	s_tiles_queue
+{
+	int				idx;
+	int				count;
+	t_tile			*tiles;
+	pthread_mutex_t	mutex;
+}	t_tiles_queue;
+
 typedef struct s_mlx_data
 {
-	mlx_t		*mlx_ptr;         // Ponteiro para instância da MLX
-	void		*win_ptr;         // Ponteiro para a janela
-	mlx_image_t	*img_ptr;         // Ponteiro para a imagem
-	uint8_t		*pixels;        // Array de pixels (dados brutos da imagem)
-	int			bits_per_pixel;   // Bits usados por cada pixel
-	int			line_length;      // Bytes por linha (com padding possível)
-	int			endian;           // Ordem dos bytes (0=little, 1=big endian)
+	mlx_t			*mlx_ptr;         // Ponteiro para instância da MLX
+	void			*win_ptr;         // Ponteiro para a janela
+	mlx_image_t		*img_ptr;         // Ponteiro para a imagem
+	uint8_t			*pixels;        // Array de pixels (dados brutos da imagem)
+	int				bits_per_pixel;   // Bits usados por cada pixel
+	int				line_length;      // Bytes por linha (com padding possível)
+	int				endian;           // Ordem dos bytes (0=little, 1=big endian)
+	t_tiles_queue	tiles_queue;
 }	t_mlx_data;
 
 typedef struct s_minirt
@@ -264,12 +290,13 @@ typedef struct s_minirt
 
 typedef struct	s_thread_data
 {
-	int				y_start;
-	int				y_end;
+	int				id;
 	t_minirt		*minirt;
-	unsigned int	seed;
 }	t_thread_data;
 
+
+long long	get_time_us(void);
+t_color	get_heat_color(long long duration, long long max_expected_time);
 
 t_ray		ray_create(t_point3 origin, t_vec3 direction);
 void		render_scene(t_minirt *rt);

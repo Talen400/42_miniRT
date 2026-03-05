@@ -6,7 +6,7 @@
 /*   By: tlavared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 01:44:49 by tlavared          #+#    #+#             */
-/*   Updated: 2026/03/04 17:06:32 by tlavared         ###   ########.fr       */
+/*   Updated: 2026/03/04 20:59:47 by tlavared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,32 +15,6 @@
 #include "../include_bonus/color.h"
 #include "../include_bonus/intersect.h"
 #include <stdlib.h>
-
-#define NUM_THREADS 10
-
-/*
- *
- * Uma alternativa para o rand().
- *
- * Static e inline para o compilador otimizar a operação
- *
- * É static por que o valor precisa mudar a cada chamada
-*/
-/*
-static inline	int fast_rand(void)
-{
-	static unsigned int seed = 12345;
-
-	seed = 214013 * seed + 2531011;
-	return ((seed >> 16) &  0x7FFF);
-}
-
-static double	random_double(void)
-{
-	return (fast_rand() / (double ) 0x7FFF);
-}
-*/
-// NOVA FUNÇÃO: anti-aliasing
 
 t_color	sky_color(t_ray *r)
 {
@@ -71,49 +45,156 @@ t_color	ray_color(t_ray *r, t_scene *scene)
 	}
 	return (sky_color(r));
 }
-
-static void	*render_rows(void *arg)
+/*
+static void	render_tile(t_tile	*tile, t_thread_data *d)
 {
-	t_thread_data	*data;
-	int		x;
 	int		y;
+	int		x;
 	t_color	color;
 
-	data = (t_thread_data *) arg;
-	y = data->y_start;
-	while (y < data->y_end)
+	y = tile->y_start;
+	while (y < tile->y_end)
 	{
-		x = 0;
-		while (x < data->minirt->scene.width)
+		x = tile->x_start;
+		while (x < tile->x_end)
 		{
-			color = pixel_color_aa(data->minirt, x, y);
-			put(data->minirt, x, y, color_to_int32(color));
+			color = pixel_color_aa(d->minirt, x, y);
+			put(d->minirt, x, y, color_to_int32(color));
 			x++;
 		}
 		y++;
 	}
+}
+*/
+
+static void	render_tile(t_tile *tile, t_thread_data *d)
+{
+	int			y;
+	int			x;
+	long long	start, end, duration;
+	t_color		heat_color;
+
+	start = get_time_us();
+	y = tile->y_start;
+	while (y < tile->y_end)
+	{
+		x = tile->x_start;
+		while (x < tile->x_end)
+		{
+			pixel_color_aa(d->minirt, x, y);
+			x++;
+		}
+		y++;
+	}
+	end = get_time_us();
+	duration = end - start;
+	heat_color = get_heat_color(duration, 100000);
+	y = tile->y_start;
+	while (y < tile->y_end)
+	{
+		x = tile->x_start;
+		while (x < tile->x_end)
+		{
+			put(d->minirt, x, y, color_to_int32(heat_color));
+			x++;
+		}
+		y++;
+	}
+}
+
+static void	*render_thread(void *arg)
+{
+	t_thread_data	*d;
+	t_tiles_queue	*queue;
+	int				tile_to_render;
+
+	d = (t_thread_data *) arg;
+	queue = &d->minirt->mlx.tiles_queue;
+	while (1)
+	{
+		pthread_mutex_lock(&queue->mutex);
+		tile_to_render = queue->idx;
+		queue->idx++;
+		pthread_mutex_unlock(&queue->mutex);
+		if (tile_to_render >= queue->count)
+			break ;
+		render_tile(&queue->tiles[tile_to_render], d);
+	}
 	return (NULL);
+}
+
+static t_tile	*alloc_tiles(t_minirt *minirt)
+{
+	t_tile			*tiles;
+	int				tiles_ver;
+	int				tiles_hor;
+	int				tiles_total;
+
+	tiles_hor = (minirt->scene.width + TILES_SIZE - 1)/ TILES_SIZE;
+	tiles_ver = (minirt->scene.height + TILES_SIZE - 1)/ TILES_SIZE;
+	tiles_total = tiles_ver * tiles_hor;
+	tiles = malloc (sizeof (t_tile) * tiles_total);
+	if (!tiles)
+		return (NULL);
+	return (tiles);
+}
+
+void	init_tiles(t_minirt	*minirt)
+{
+	t_tiles_queue	*queue;
+	int	x;
+	int	y;
+	int	i;
+
+	printf("antes de pega e atribuir a variavel queue \n");
+	queue = &minirt->mlx.tiles_queue;
+	queue->tiles = alloc_tiles(minirt);
+	printf("peguei a variavel e vamos atribuir \n");
+	queue->count = 0;
+	queue->idx = 0;
+	if (!queue->tiles)
+		return ;
+	pthread_mutex_init(&queue->mutex, NULL);
+	i = 0;
+	y = 0;
+	while (y < minirt->scene.height)
+	{
+		x = 0;
+		while (x < minirt->scene.width)
+		{
+			queue->tiles[i].x_start = x;
+			queue->tiles[i].y_start = y;
+			if (x + TILES_SIZE > minirt->scene.width)
+				queue->tiles[i].x_end = WIDTH;
+			else
+				queue->tiles[i].x_end = x + TILES_SIZE;
+			if (y + TILES_SIZE > minirt->scene.height)
+				queue->tiles[i].y_start = HEIGHT;
+			else
+				queue->tiles[i].y_end = y + TILES_SIZE;
+			i++;
+			x += TILES_SIZE;
+		}
+		y += TILES_SIZE;
+	}
+	queue->count = i;
 }
 
 static void	drawing(t_minirt *minirt)
 {
 	pthread_t		threads[NUM_THREADS];
 	t_thread_data	data[NUM_THREADS];
-	int				rows_per_thread;
 	int				i;
 
-	rows_per_thread = minirt->scene.height / NUM_THREADS;
+	printf("antes do allocamento \n");
+	init_tiles(minirt);
+	printf("depois do alocamento \n");
 	i = 0;
 	while (i < NUM_THREADS)
 	{
+		data[i].id = i;
 		data[i].minirt = minirt;
-		data[i].y_start = i * rows_per_thread;
-		if (i == NUM_THREADS - 1)
-			data[i].y_end = minirt->scene.height;
-		else
-			data[i].y_end = data[i].y_start + rows_per_thread;
-		data[i].seed = 12345 * (i + 1);
-		pthread_create(&threads[i], NULL, render_rows, &data[i]);
+		pthread_create(&threads[i], NULL, render_thread, &data[i]);
 		i++;
 	}
 	i = 0;

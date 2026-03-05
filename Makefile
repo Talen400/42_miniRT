@@ -83,6 +83,7 @@ SRCS_BONUS        := src_bonus/main.c \
 					 src_bonus/vectors/vec_advanced.c \
 					 src_bonus/draw/draw_utils.c \
 					 src_bonus/draw/draw_pthreads.c \
+					 src_bonus/draw/debug_color_heat_thread.c \
 					 src_bonus/intersect/hit_sphere.c \
 					 src_bonus/intersect/bump_mapping.c \
 					 src_bonus/intersect/bump_shapes.c \
@@ -130,7 +131,7 @@ $(NAME_BONUS): $(OBJS_BONUS)
 	$(CC) $(CFLAGS_BONUS) $(OBJS_BONUS) $(LDFLAGS_BONUS) -o $(NAME_BONUS)
 	@echo "✓ $(NAME_BONUS) (bonus) compilado com sucesso!"
 
-$(OBJ_BONUS_DIR)/%.o: $(SRC_BONUS_DIR)/%.c | $(OBJ_BONUS_DIR)
+$(OBJ_BONUS_DIR)/%.o: $(SRC_BONUS_DIR)/%.c | $(OBJ_BONUS_DIR) $(INCLUDE_BONUS_DIR)
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS_BONUS) -c $< -o $@
 

@@ -6,7 +6,7 @@
 /*   By: rgregori <rgregori@student.42sp.org.br>    #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026-01-29 15:07:34 by rgregori          #+#    #+#             */
-/*   Updated: 2026-01-29 15:07:34 by rgregori         ###   ########.fr       */
+/*   Updated: 2026/03/04 18:20:39 by tlavared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,6 @@ void	bump_plane(t_vec3 point, t_object *obj, t_vec3 *normal);
 void	bump_cylinder(t_vec3 point, t_object *obj, t_vec3 *normal);
 void	bump_cone(t_vec3 point, t_object *obj, t_vec3 *normal);
 t_color	pick_checker(double u, double v, t_object *obj);
+
 
 #endif
