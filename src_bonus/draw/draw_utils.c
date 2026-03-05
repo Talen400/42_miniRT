@@ -6,7 +6,7 @@
 /*   By: tlavared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 00:00:00 by tlavared          #+#    #+#             */
-/*   Updated: 2026/02/26 00:00:00 by tlavared         ###   ########.fr       */
+/*   Updated: 2026/03/04 18:29:24 by tlavared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,26 @@
 #include "mlx_rt.h"
 #include <stdlib.h>
 
+/*
+ *
+ * Uma alternativa para o rand().
+ *
+ * Static e inline para o compilador otimizar a operação
+ *
+ * É static por que o valor precisa mudar a cada chamada
+*/
+
+static inline int	fast_rand(void)
+{
+	static unsigned int	seed = 12345;
+
+	seed = 214013 * seed + 2531011;
+	return ((seed >> 16) & 0x7FFF);
+}
+
 static double	random_double(void)
 {
-	return (rand() / (RAND_MAX + 1.0));
+	return (fast_rand() / (double ) 0x7FFF);
 }
 
 static t_ray	pixel_ray(t_camera *cam, double x, double y, t_scene *scene)
