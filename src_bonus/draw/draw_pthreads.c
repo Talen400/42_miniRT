@@ -45,7 +45,7 @@ t_color	ray_color(t_ray *r, t_scene *scene)
 	}
 	return (sky_color(r));
 }
-/*
+
 static void	render_tile(t_tile	*tile, t_thread_data *d)
 {
 	int		y;
@@ -65,8 +65,8 @@ static void	render_tile(t_tile	*tile, t_thread_data *d)
 		y++;
 	}
 }
-*/
 
+/*
 static void	render_tile(t_tile *tile, t_thread_data *d)
 {
 	int			y;
@@ -101,6 +101,7 @@ static void	render_tile(t_tile *tile, t_thread_data *d)
 		y++;
 	}
 }
+*/
 
 static void	*render_thread(void *arg)
 {
