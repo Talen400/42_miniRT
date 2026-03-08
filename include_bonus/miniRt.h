@@ -56,7 +56,7 @@
 ** Definições de tamanho da janela e precisão numérica
 ** Estas constantes controlam aspectos fundamentais da renderização
 */
-#define SAMPLES_PER_PIXEL 64
+#define SAMPLES_PER_PIXEL 1
 # define WIDTH 1280          // Largura padrão da janela em pixels
 # define HEIGHT 800         // Altura padrão da janela em pixels
 # define EPSILON 1e-6        // Valor muito pequeno para comparações de float
@@ -86,7 +86,7 @@
  */
 
 #define TILES_SIZE 8
-#define NUM_THREADS 8
+#define NUM_THREADS 1
 
 /* ========================================================================== */
 /*                       ESTRUTURAS FUNDAMENTAIS                              */
@@ -259,7 +259,6 @@ typedef struct	s_tile
 	int				y_end;
 	int				x_start;
 	int				x_end;
-	struct s_tile	*next;
 }	t_tile;
 
 typedef struct	s_tiles_queue
@@ -267,7 +266,6 @@ typedef struct	s_tiles_queue
 	int				idx;
 	int				count;
 	t_tile			*tiles;
-	pthread_mutex_t	mutex;
 }	t_tiles_queue;
 
 typedef struct s_mlx_data
@@ -297,6 +295,8 @@ typedef struct	s_thread_data
 
 long long	get_time_us(void);
 t_color	get_heat_color(long long duration, long long max_expected_time);
+void	*render_thread(void *arg);
+void	init_tiles(t_minirt	*minirt);
 
 t_ray		ray_create(t_point3 origin, t_vec3 direction);
 void		render_scene(t_minirt *rt);

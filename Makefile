@@ -83,7 +83,6 @@ SRCS_BONUS        := src_bonus/main.c \
 					 src_bonus/vectors/vec_advanced.c \
 					 src_bonus/draw/draw_utils.c \
 					 src_bonus/draw/draw_pthreads.c \
-					 src_bonus/draw/debug_color_heat_thread.c \
 					 src_bonus/intersect/hit_sphere.c \
 					 src_bonus/intersect/bump_mapping.c \
 					 src_bonus/intersect/bump_shapes.c \
@@ -98,7 +97,10 @@ SRCS_BONUS        := src_bonus/main.c \
 					 src_bonus/lighting/lighting_reflect.c \
 					 src_bonus/color/color_convert.c \
 					 src_bonus/color/color_operations.c \
-					 src_bonus/ray/ray_utils.c
+					 src_bonus/ray/ray_utils.c \
+					 src_bonus/multithread/debug.c \
+					 src_bonus/multithread/thread.c \
+					 src_bonus/multithread/tiles.c
 
 OBJS_BONUS        := $(patsubst $(SRC_BONUS_DIR)/%.c,$(OBJ_BONUS_DIR)/%.o,$(SRCS_BONUS))
 CFLAGS_BONUS      := -Wall -Wextra -Werror -I$(INCLUDE_BONUS_DIR) -I$(LIBFT_DIR)/include -I$(MLX42_DIR)/include
