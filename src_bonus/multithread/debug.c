@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   debug.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tlavared <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/09 18:40:04 by tlavared          #+#    #+#             */
+/*   Updated: 2026/03/09 18:42:58 by tlavared         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <sys/time.h>
 #include "../../include_bonus/miniRt.h"
 
 long long	get_time_us(void)
 {
-	struct timeval tv;
+	struct timeval	tv;
 
 	if (gettimeofday(&tv, NULL) == -1)
 		return (-1);
@@ -25,13 +37,13 @@ t_color	get_heat_color(long long duration, long long max_expected_time)
 	if (ratio < 0.5)
 	{
 		color.r = 0;
-		color.g = (int ) (ratio * 2.0 * 255.0);
-		color.b = (int ) ((1.0 - (ratio * 2.0) * 255.0));
+		color.g = (int )(ratio * 2.0 * 255.0);
+		color.b = (int )((1.0 - (ratio * 2.0) * 255.0));
 	}
 	else
 	{
-		color.r = (int ) ((ratio - 0.5) * 2.0 * 255.0);
-		color.g = (int ) ((1.0 - ((ratio * 0.5) * 2.0)) * 255.0);
+		color.r = (int )((ratio - 0.5) * 2.0 * 255.0);
+		color.g = (int )((1.0 - ((ratio * 0.5) * 2.0)) * 255.0);
 		color.b = 0;
 	}
 	return (color);

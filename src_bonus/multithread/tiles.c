@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tiles.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tlavared <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/09 18:38:04 by tlavared          #+#    #+#             */
+/*   Updated: 2026/03/09 19:02:21 by tlavared         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include_bonus/miniRt.h"
 
 static t_tile	*alloc_tiles(t_minirt *minirt)
@@ -7,8 +19,8 @@ static t_tile	*alloc_tiles(t_minirt *minirt)
 	int				tiles_hor;
 	int				tiles_total;
 
-	tiles_hor = (minirt->scene.width + TILES_SIZE - 1)/ TILES_SIZE;
-	tiles_ver = (minirt->scene.height + TILES_SIZE - 1)/ TILES_SIZE;
+	tiles_hor = (minirt->scene.width + TILES_SIZE - 1) / TILES_SIZE;
+	tiles_ver = (minirt->scene.height + TILES_SIZE - 1) / TILES_SIZE;
 	tiles_total = tiles_ver * tiles_hor;
 	tiles = malloc (sizeof (t_tile) * tiles_total);
 	if (!tiles)
@@ -16,12 +28,37 @@ static t_tile	*alloc_tiles(t_minirt *minirt)
 	return (tiles);
 }
 
+static void	init_tile_lst(t_minirt *minirt, t_tiles_queue *queue)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	while (y < minirt->scene.height)
+	{
+		x = 0;
+		while (x < minirt->scene.width)
+		{
+			queue->tiles[queue->count].x_start = x;
+			queue->tiles[queue->count].y_start = y;
+			if (x + TILES_SIZE > minirt->scene.width)
+				queue->tiles[queue->count].x_end = minirt->scene.width;
+			else
+				queue->tiles[queue->count].x_end = x + TILES_SIZE;
+			if (y + TILES_SIZE > minirt->scene.height)
+				queue->tiles[queue->count].y_start = minirt->scene.height;
+			else
+				queue->tiles[queue->count].y_end = y + TILES_SIZE;
+			queue->count++;
+			x += TILES_SIZE;
+		}
+		y += TILES_SIZE;
+	}
+}
+
 void	init_tiles(t_minirt	*minirt)
 {
 	t_tiles_queue	*queue;
-	int	x;
-	int	y;
-	int	i;
 
 	queue = &minirt->mlx.tiles_queue;
 	queue->tiles = alloc_tiles(minirt);
@@ -29,28 +66,5 @@ void	init_tiles(t_minirt	*minirt)
 	queue->idx = 0;
 	if (!queue->tiles)
 		return ;
-	i = 0;
-	y = 0;
-	while (y < minirt->scene.height)
-	{
-		x = 0;
-		while (x < minirt->scene.width)
-		{
-			queue->tiles[i].x_start = x;
-			queue->tiles[i].y_start = y;
-			if (x + TILES_SIZE > minirt->scene.width)
-				queue->tiles[i].x_end = WIDTH;
-			else
-				queue->tiles[i].x_end = x + TILES_SIZE;
-			if (y + TILES_SIZE > minirt->scene.height)
-				queue->tiles[i].y_start = HEIGHT;
-			else
-				queue->tiles[i].y_end = y + TILES_SIZE;
-			i++;
-			x += TILES_SIZE;
-		}
-		y += TILES_SIZE;
-	}
-	queue->count = i;
+	init_tile_lst(minirt, queue);
 }
-

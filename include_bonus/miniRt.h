@@ -6,7 +6,7 @@
 /*   By: student <student@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 00:00:00 by student           #+#    #+#             */
-/*   Updated: 2026/03/04 21:08:51 by tlavared         ###   ########.fr       */
+/*   Updated: 2026/03/09 18:01:02 by tlavared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@
 ** Definições de tamanho da janela e precisão numérica
 ** Estas constantes controlam aspectos fundamentais da renderização
 */
-#define SAMPLES_PER_PIXEL 1
+#define SAMPLES_PER_PIXEL 16
 # define WIDTH 1280          // Largura padrão da janela em pixels
 # define HEIGHT 800         // Altura padrão da janela em pixels
 # define EPSILON 1e-6        // Valor muito pequeno para comparações de float
@@ -86,7 +86,7 @@
  */
 
 #define TILES_SIZE 8
-#define NUM_THREADS 1
+#define NUM_THREADS 8
 
 /* ========================================================================== */
 /*                       ESTRUTURAS FUNDAMENTAIS                              */

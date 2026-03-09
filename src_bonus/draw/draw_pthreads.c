@@ -6,7 +6,7 @@
 /*   By: tlavared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 01:44:49 by tlavared          #+#    #+#             */
-/*   Updated: 2026/03/04 20:59:47 by tlavared         ###   ########.fr       */
+/*   Updated: 2026/03/09 18:48:08 by tlavared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ t_color	ray_color(t_ray *r, t_scene *scene)
 	return (sky_color(r));
 }
 
-
 static void	drawing(t_minirt *minirt)
 {
 	pthread_t		threads[NUM_THREADS];
@@ -72,5 +71,6 @@ int	draw(t_minirt *minirt)
 {
 	ft_clearimg(minirt);
 	drawing(minirt);
+	ft_putstr_fd("rendered!\n", 1);
 	return (0);
 }

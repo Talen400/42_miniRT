@@ -1,8 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   thread.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tlavared <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/09 18:37:58 by tlavared          #+#    #+#             */
+/*   Updated: 2026/03/09 18:41:14 by tlavared         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include_bonus/miniRt.h"
 #include "../include_bonus/mlx_rt.h"
 #include "../include_bonus/color.h"
 #include "../include_bonus/intersect.h"
-
 
 static void	render_tile(t_tile	*tile, t_thread_data *d)
 {
@@ -75,11 +86,11 @@ void	*render_thread(void *arg)
 	queue = &d->minirt->mlx.tiles_queue;
 	while (1)
 	{
-		tile_to_render = queue->idx;		queue->idx++;
+		tile_to_render = queue->idx;
+		queue->idx++;
 		if (tile_to_render >= queue->count)
 			break ;
 		render_tile(&queue->tiles[tile_to_render], d);
 	}
 	return (NULL);
 }
-

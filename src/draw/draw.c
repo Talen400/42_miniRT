@@ -6,7 +6,7 @@
 /*   By: tlavared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 01:44:49 by tlavared          #+#    #+#             */
-/*   Updated: 2026/02/02 19:34:25 by tlavared         ###   ########.fr       */
+/*   Updated: 2026/03/09 18:08:31 by tlavared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,6 @@ int	draw(t_minirt *minirt)
 {
 	ft_clearimg(minirt);
 	drawing(minirt);
+	ft_putstr_fd("rendered!\n", 1);
 	return (0);
 }
