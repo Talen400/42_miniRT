@@ -58,49 +58,49 @@ OBJ_BONUS_DIR     := obj_bonus
 INCLUDE_BONUS_DIR := include_bonus
 NAME_BONUS        := miniRT_bonus
 
-SRCS_BONUS        := src_bonus/main.c \
-					 src_bonus/utils.c \
-					 src_bonus/events.c \
-					 src_bonus/mlx_utils.c \
-					 src_bonus/scene/scene.c \
-					 src_bonus/scene/object_utils.c \
-					 src_bonus/scene/object_extra_args.c \
-					 src_bonus/scene/object_bump.c \
-					 src_bonus/scene/object_defaults.c \
-					 src_bonus/parser/parser_ambient.c \
-					 src_bonus/parser/parser_camera.c \
-					 src_bonus/parser/parser_camera_utils.c \
-					 src_bonus/parser/parser_cylinder.c \
-					 src_bonus/parser/parser_light.c \
-					 src_bonus/parser/parser_plane.c \
-					 src_bonus/parser/parser_sphere.c \
-					 src_bonus/parser/parser_cone.c \
-					 src_bonus/parser/parser_error.c \
-					 src_bonus/parser/parser.c \
-					 src_bonus/parser/parser_utils.c \
-					 src_bonus/parser/parser_utils1.c \
-					 src_bonus/vectors/vec_basic.c \
-					 src_bonus/vectors/vec_advanced.c \
-					 src_bonus/draw/draw_utils.c \
-					 src_bonus/draw/draw_pthreads.c \
-					 src_bonus/intersect/hit_sphere.c \
-					 src_bonus/intersect/bump_mapping.c \
-					 src_bonus/intersect/bump_shapes.c \
-					 src_bonus/intersect/checkerboard.c \
-					 src_bonus/intersect/hit_cone.c \
-					 src_bonus/intersect/hit_plane.c \
-					 src_bonus/intersect/hit_cylinder.c \
-					 src_bonus/intersect/hit_scene.c \
-					 src_bonus/intersect/hit_record.c \
-					 src_bonus/intersect/intersect_utils.c \
-					 src_bonus/lighting/lighting.c \
-					 src_bonus/lighting/lighting_reflect.c \
-					 src_bonus/color/color_convert.c \
-					 src_bonus/color/color_operations.c \
-					 src_bonus/ray/ray_utils.c \
-					 src_bonus/multithread/debug.c \
-					 src_bonus/multithread/thread.c \
-					 src_bonus/multithread/tiles.c
+SRCS_BONUS        := src_bonus/main_bonus.c \
+					 src_bonus/utils_bonus.c \
+					 src_bonus/events_bonus.c \
+					 src_bonus/mlx_utils_bonus.c \
+					 src_bonus/scene/scene_bonus.c \
+					 src_bonus/scene/object_utils_bonus.c \
+					 src_bonus/scene/object_extra_args_bonus.c \
+					 src_bonus/scene/object_bump_bonus.c \
+					 src_bonus/scene/object_defaults_bonus.c \
+					 src_bonus/parser/parser_ambient_bonus.c \
+					 src_bonus/parser/parser_camera_bonus.c \
+					 src_bonus/parser/parser_camera_utils_bonus.c \
+					 src_bonus/parser/parser_cylinder_bonus.c \
+					 src_bonus/parser/parser_light_bonus.c \
+					 src_bonus/parser/parser_plane_bonus.c \
+					 src_bonus/parser/parser_sphere_bonus.c \
+					 src_bonus/parser/parser_cone_bonus.c \
+					 src_bonus/parser/parser_error_bonus.c \
+					 src_bonus/parser/parser_bonus.c \
+					 src_bonus/parser/parser_utils_bonus.c \
+					 src_bonus/parser/parser_utils1_bonus.c \
+					 src_bonus/vectors/vec_basic_bonus.c \
+					 src_bonus/vectors/vec_advanced_bonus.c \
+					 src_bonus/draw/draw_utils_bonus.c \
+					 src_bonus/draw/draw_pthreads_bonus.c \
+					 src_bonus/intersect/hit_sphere_bonus.c \
+					 src_bonus/intersect/bump_mapping_bonus.c \
+					 src_bonus/intersect/bump_shapes_bonus.c \
+					 src_bonus/intersect/checkerboard_bonus.c \
+					 src_bonus/intersect/hit_cone_bonus.c \
+					 src_bonus/intersect/hit_plane_bonus.c \
+					 src_bonus/intersect/hit_cylinder_bonus.c \
+					 src_bonus/intersect/hit_scene_bonus.c \
+					 src_bonus/intersect/hit_record_bonus.c \
+					 src_bonus/intersect/intersect_utils_bonus.c \
+					 src_bonus/lighting/lighting_bonus.c \
+					 src_bonus/lighting/lighting_reflect_bonus.c \
+					 src_bonus/color/color_convert_bonus.c \
+					 src_bonus/color/color_operations_bonus.c \
+					 src_bonus/ray/ray_utils_bonus.c \
+					 src_bonus/multithread/debug_bonus.c \
+					 src_bonus/multithread/thread_bonus.c \
+					 src_bonus/multithread/tiles_bonus.c
 
 OBJS_BONUS        := $(patsubst $(SRC_BONUS_DIR)/%.c,$(OBJ_BONUS_DIR)/%.o,$(SRCS_BONUS))
 CFLAGS_BONUS      := -Wall -Wextra -Werror -I$(INCLUDE_BONUS_DIR) -I$(LIBFT_DIR)/include -I$(MLX42_DIR)/include
