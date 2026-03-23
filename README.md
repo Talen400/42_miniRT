@@ -4,6 +4,17 @@
 
 > A ray tracer written from scratch in pure C, rendering 3D scenes with realistic Phong lighting.
 
+-----
+## 🖼️ Visual Showcase
+
+The following examples demonstrate miniRT's rendering mandatory and bonus features.
+
+![Render of miniRT](assets/splash.png)
+![Render of miniRT](assets/bonus_full.png)
+![Render of miniRT](assets/specular_test.png)
+
+-----
+
 ---
 
 ## Description
